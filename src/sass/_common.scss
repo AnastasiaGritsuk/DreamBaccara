@@ -1,0 +1,6 @@
+@import "mixins/_mixin";
+
+.content {
+  background-color: red;
+  @include flexbox();
+}
