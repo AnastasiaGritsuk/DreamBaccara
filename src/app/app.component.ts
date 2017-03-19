@@ -5,4 +5,7 @@ import { Component } from '@angular/core';
   selector: 'my-app',
   templateUrl: 'app.template.html'
 })
-export class AppComponent  {}
+export class AppComponent  {
+  title = 'Tour of Heroes';
+  myHero = 'Windstorm';
+}
