@@ -1,6 +1,52 @@
 @import "mixins/_mixin";
 
-.content {
-  background-color: red;
-  @include flexbox();
+html, body {
+  height: 100%;
 }
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  @include fontSize(16px);
+  color: #333333;
+  margin: 0;
+  @include flexbox();
+  @include flex-direction(column);
+
+  &.overflow {
+    overflow: hidden;
+  }
+}
+
+.all {
+  @include flexbox();
+  @include flex-direction(column);
+  height: 100vh;
+}
+
+.header {
+  @include flex-shrink(0);
+}
+
+.footer {
+  @include flex-shrink(0);
+}
+
+.content {
+  @include flex(1 0 auto);
+}
+
+.layout-grid {
+  @include flexbox();
+  @include justify-content(center);
+
+  &__container {
+    max-width: calculateRem(900px);
+    @include flex(0 0 100%);
+  }
+}
+
+
