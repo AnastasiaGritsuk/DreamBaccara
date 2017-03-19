@@ -5,38 +5,71 @@
       <div class="layout-grid__container">
         <div class="panel panel_dealer">
           <h3 class="panel__title">Dealer</h3>
-          <div class="cards"></div>
+          <div class="cards">
+            <div class="cards__item"></div>
+            <div class="cards__item"></div>
+          </div>
           <div class="desk"></div>
         </div>
         <div class="panel panel_table">
           <!--repeat tables-->
           <div class="table">
-            <!--repeat bets-->
-            <div class="table__bet">
-              <div class="table__bet-name">Bank</div>
-              <div class="table__bet-num">1</div>
-              <div class="table__bet-toggle"></div>
-              <div class="table__bet-reset-icon"></div>
+            <div class="table__item">
+              <div class="bet">
+                <div class="bet__item">
+                  <label>Bank</label>
+                  <input type="radio" value="">
+                </div>
+                <div class="bet__item">1</div>
+                <div class="bet__item"></div>
+                <div class="bet__item">win</div>
+                <div class="bet__item"></div>
+              </div>
+              <div class="cards">
+                <div class="cards__item"></div>
+                <div class="cards__item"></div>
+              </div>
             </div>
-            <div class="table__bet">
-              <div class="table__bet-name">Player</div>
-              <div class="table__bet-num">2</div>
-              <div class="table__bet-toggle"></div>
-              <div class="table__bet-reset-icon"></div>
+            <div class="table__item">
+              <div class="bet">
+                <div class="bet__item">
+                  <label>Player</label>
+                  <input type="radio" value="">
+                </div>
+                <div class="bet__item">1</div>
+                <div class="bet__item"></div>
+                <div class="bet__item">lost</div>
+                <div class="bet__item"></div>
+              </div>
+              <div class="cards">
+                <div class="cards__item"></div>
+                <div class="cards__item"></div>
+              </div>
             </div>
-            <div class="table__bet">
-              <div class="table__bet-name">Tie</div>
-              <div class="table__bet-num">3</div>
-              <div class="table__bet-toggle"></div>
-              <div class="table__bet-reset-icon"></div>
+            <div class="table__item">
+              <!--repeat bets-->
+              <div class="bet">
+                <div class="bet__item">
+                  <label>Tie</label>
+                  <input type="radio" value="">
+                </div>
+                <div class="bet__item">1</div>
+                <div class="bet__item"></div>
+                <div class="bet__item"></div>
+                <div class="bet__item"></div>
+              </div>
+              <div class="cards">
+                <div class="cards__item"></div>
+                <div class="cards__item"></div>
+              </div>
             </div>
           </div>
         </div>
         <div class="panel panel_players">
           <!--repeat players-->
           <div class="player">
-            <div class="player__name">Anastasia</div>
-            <div class="player__balance">10</div>
+            <div class="player__item player__item_name">Anastasia</div>
+            <div class="player__item player__item_balance">10</div>
           </div>
         </div>
       </div>

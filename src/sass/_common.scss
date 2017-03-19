@@ -48,5 +48,56 @@ body {
     @include flex(0 0 100%);
   }
 }
+.cards {
+  @include flexbox();
+  @include flex-direction(row);
+}
+
+.desk {
+  height: 70px;
+  width: 50px;
+  background-color: #ff3800;
+}
+
+.cards__item {
+  height: 70px;
+  width: 70px;
+  border: 1px solid #49bcab;
+}
+
+.panel {
+  @include flexbox();
+}
+
+.panel_dealer {
+  @include flex-direction(row);
+  justify-content:space-between;
+}
+
+.panel_table {
+  @include flex-direction(column);
+  justify-content: space-around;
+  align-items: stretch;
+}
+
+.bet {
+  @include flexbox();
+  @include flex-direction(row);
+  padding: 20px 0;
+}
+
+.bet__item {
+  margin-right: 10px;
+}
+
+.player {
+  @include flexbox();
+  @include flex-direction(column);
+  padding: 20px 0;
+}
+
+.player__item {
+  padding: 0 0 10px;
+}
 
 
