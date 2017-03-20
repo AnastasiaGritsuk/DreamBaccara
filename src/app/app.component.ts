@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
+import { CardDesk } from './cardDesk.component'
 
 @Component({
   moduleId: module.id,
   selector: 'my-app',
-  templateUrl: 'app.template.html'
+  templateUrl: 'app.template.html',
+  providers: [CardDesk]
 })
 export class AppComponent  {
-  title = 'Tour of Heroes';
-  myHero = 'Windstorm';
+  constructor(public cardDeskComponent:CardDesk) {};
 }
