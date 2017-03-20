@@ -12,7 +12,8 @@ export class CardDesk  {
 
     console.log(this.cards);
   }
-  getCard(count:number) {
+  getCard() {
+    console.log(this.cards);
     return this.cards.shift();
   }
 }
