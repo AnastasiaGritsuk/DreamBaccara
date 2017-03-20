@@ -1,12 +1,17 @@
 import { Component } from '@angular/core';
 import { CardDesk } from './cardDesk.component'
+import {Balance} from "./balance";
 
 @Component({
   moduleId: module.id,
   selector: 'my-app',
   templateUrl: 'app.template.html',
-  providers: [CardDesk]
+  providers: [CardDesk, Balance]
 })
-export class AppComponent  {
-  constructor(public cardDeskComponent:CardDesk) {};
+export class AppComponent {
+  userBalance: Object;
+
+  constructor(public cardDesk: CardDesk) {
+    this.userBalance = new Balance(30);
+  }
 }

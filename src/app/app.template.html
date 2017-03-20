@@ -10,8 +10,8 @@
             <div class="cards__item"></div>
           </div>
           <div class="desk">
-            <button (click)="cardDeskComponent.shuffle()">shuffle</button>
-            <button (click)="cardDeskComponent.getCard()">getCard</button>
+            <button (click)="cardDesk.shuffle()">shuffle</button>
+            <button (click)="cardDesk.getCard()">getCard</button>
           </div>
         </div>
         <div class="panel panel_table">
@@ -72,7 +72,7 @@
           <!--repeat players-->
           <div class="player">
             <div class="player__item player__item_name">Anastasia</div>
-            <div class="player__item player__item_balance">10</div>
+            <div class="player__item player__item_balance">{{userBalance.balance}}</div>
           </div>
         </div>
       </div>
