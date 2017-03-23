@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CardDesk } from './cardDesk.component'
+import { CardDesk } from './cardDesk.'
 import {Balance} from "./balance";
 import {Bet} from "./bet";
 
