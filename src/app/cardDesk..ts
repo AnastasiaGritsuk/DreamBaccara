@@ -12,9 +12,14 @@ export class CardDesk  {
 
     console.log(this.cards);
   }
-  getCard() {
+  getCard(count:number) {
     console.log(this.cards);
-    return this.cards.shift();
+    let result:number[] =[];
+
+    for(var i=0;i<count;i++) {
+      result.push(this.cards.shift());
+    }
+    return result;
   }
 }
 

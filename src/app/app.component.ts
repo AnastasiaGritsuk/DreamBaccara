@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
-import { CardDesk } from './cardDesk.'
+import {CardDesk} from './cardDesk.'
 import {Balance} from "./balance";
 import {Bet} from "./bet";
+import {Game} from "./game";
+import {Player} from "./player";
+import {Dealer} from "./dealer";
 
 @Component({
   moduleId: module.id,
@@ -10,11 +13,55 @@ import {Bet} from "./bet";
   providers: [CardDesk, Balance, Bet]
 })
 export class AppComponent {
-  userBalance: Object;
-  bankBet: Object;
+  game:Game;
+  player:Player;
+  bet:Bet;
+  cardDesk:CardDesk;
+  dealer:Player;
 
-  constructor(public cardDesk: CardDesk) {
-    this.userBalance = new Balance(30);
-    this.bankBet = new Bet('Bank', 100);
+  constructor(game:Game,player:Player,cardDesk:CardDesk) {
+    this.game = game;
+    this.player = player;
+    this.cardDesk = cardDesk;
+    this.dealer = new Player('Dealer', 1000000);
   }
+
+  run(bet:Bet) {
+    console.log('i am running');
+    this.player.setBet(bet);
+    this.cardDesk.shuffle();
+
+    let pointsPlayer = this.cardDesk.getCard(2).reduce(function(previousValue, currentValue) {
+      return previousValue + currentValue;
+    });
+
+    this.player.setPoints(pointsPlayer);
+
+    let pointsDealer = this.cardDesk.getCard(2).reduce(function(previousValue, currentValue) {
+      return previousValue + currentValue;
+    });
+
+    this.dealer.setPoints(pointsDealer);
+    this.checkWinner();
+  }
+
+  checkWinner(){
+    let pPoints = this.player.getPoints();
+    let dPoints = this.dealer.getPoints();
+
+    if(pPoints == dPoints) {
+      console.log('Tie')
+    }
+    if(pPoints>dPoints) {
+      console.log('Player won');
+    }else {
+      console.log('Dealer won');
+    }
+  }
+
+
+  /*list of events
+  * user presses 'Start game' -> run on DocumentView, player with preconditions
+  * bet
+  * */
 }
