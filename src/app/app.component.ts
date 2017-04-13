@@ -54,14 +54,14 @@ export class AppComponent {
 
     if(pPoints == dPoints) {
       console.log('Tie')
-      return {name:'1',rate:1}
+      return {name:'Tie',rate:1}
     }
     if(pPoints>dPoints) {
       console.log('Player won');
-      return {name:'2',rate:1}
+      return {name:'Player',rate:1}
     }else {
       console.log('Dealer won');
-      return {name:'3',rate:1}
+      return {name:'Dealer',rate:1}
     }
   }
 
