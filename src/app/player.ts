@@ -6,7 +6,6 @@ import {Bet} from "./bet";
 export class Player  {
   name: string;
   points: number;
-  history: Object;
   purse: number;
   bet:Bet;
 
@@ -26,5 +25,9 @@ export class Player  {
 
   getPoints() {
     return this.points;
+  }
+
+  getBet() {
+    return this.bet;
   }
 }

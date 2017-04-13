@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {CardDesk} from './cardDesk.'
 import {Balance} from "./balance";
 import {Bet} from "./bet";
@@ -10,20 +10,22 @@ import {Dealer} from "./dealer";
   moduleId: module.id,
   selector: 'my-app',
   templateUrl: 'app.template.html',
-  providers: [CardDesk, Balance, Bet]
+  providers: [CardDesk, Balance, Bet, Game, Player]
 })
+
 export class AppComponent {
-  game:Game;
+  game: Game;
   player:Player;
   bet:Bet;
   cardDesk:CardDesk;
   dealer:Player;
+  balance: Balance;
 
-  constructor(game:Game,player:Player,cardDesk:CardDesk) {
-    this.game = game;
-    this.player = player;
-    this.cardDesk = cardDesk;
-    this.dealer = new Player('Dealer', 1000000);
+  constructor(_cardDesk:CardDesk) {
+     this.player = new Player('Angola', 500);
+     this.cardDesk = _cardDesk;
+     this.bet = new Bet("", 1);
+     this.dealer = new Player('Dealer', 1000000);
   }
 
   run(bet:Bet) {
@@ -42,7 +44,8 @@ export class AppComponent {
     });
 
     this.dealer.setPoints(pointsDealer);
-    this.checkWinner();
+    let betWinner: Bet = this.checkWinner();
+    this.checkBet(betWinner);
   }
 
   checkWinner(){
@@ -51,11 +54,24 @@ export class AppComponent {
 
     if(pPoints == dPoints) {
       console.log('Tie')
+      return {name:'1',rate:1}
     }
     if(pPoints>dPoints) {
       console.log('Player won');
+      return {name:'2',rate:1}
     }else {
       console.log('Dealer won');
+      return {name:'3',rate:1}
+    }
+  }
+
+  checkBet(betWinner:Bet) {
+    let playerBet = this.player.getBet();
+
+    if(playerBet.name == betWinner.name) {
+      console.log('Player won')
+    } else {
+      console.log('Dealer won')
     }
   }
 
@@ -65,3 +81,4 @@ export class AppComponent {
   * bet
   * */
 }
+

@@ -10,8 +10,7 @@
             <div class="cards__item"></div>
           </div>
           <div class="desk">
-            <button (click)="cardDesk.shuffle()">shuffle</button>
-            <button (click)="cardDesk.getCard()">getCard</button>
+            <button (click)="run({name:'Tie', rate:3})">run</button>
           </div>
         </div>
         <div class="panel panel_table">
@@ -20,10 +19,10 @@
             <div class="table__item">
               <div class="bet">
                 <div class="bet__item">
-                  <label> {{bankBet.name}}</label>
+                  <label></label>
                   <input type="radio" value="">
                 </div>
-                <div class="bet__item">{{bankBet.rate}}</div>
+                <div class="bet__item"></div>
                 <div class="bet__item"></div>
                 <div class="bet__item">win</div>
                 <div class="bet__item"></div>
@@ -72,7 +71,7 @@
           <!--repeat players-->
           <div class="player">
             <div class="player__item player__item_name">Anastasia</div>
-            <div class="player__item player__item_balance">{{userBalance.balance}}</div>
+            <div class="player__item player__item_balance"></div>
           </div>
         </div>
       </div>
