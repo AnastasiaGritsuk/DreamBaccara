@@ -40,17 +40,10 @@ export class AppComponent {
     this.player.setBet(betName);
     this.cardDesk.shuffle();
 
-    let pointsPlayer = this.cardDesk.getCard(2).reduce(function(previousValue, currentValue) {
-      return previousValue + currentValue;
-    });
+    this.player.setPoints(this.calculatePoints(2));
+    this.dealer.setPoints(this.calculatePoints(2));
 
-    this.player.setPoints(this.calculatePoints(pointsPlayer));
-
-    let pointsDealer = this.cardDesk.getCard(2).reduce(function(previousValue, currentValue) {
-      return previousValue + currentValue;
-    });
-
-    this.dealer.setPoints(this.calculatePoints(pointsDealer));
+    this.isThirdCardNeeded(this.player.getPoints(), this.dealer.getPoints());
 
     let betWinner: string = this.checkWinner();
     this.checkBet(betWinner);
@@ -86,22 +79,40 @@ export class AppComponent {
     }
   }
 
-  calculatePoints(points:number) {
-    if(points == 10) {
-      return 0;
-    }
-    if(points > 10) {
-      return points - 10;
+  isThirdCardNeeded(playerPoints:number, dilerPoints:number) {
+    if(playerPoints>=0 && playerPoints<=5) {
+      this.player.setPoints(this.calculatePoints(1));
     }
 
-    return points;
+    if(dilerPoints>=0 && dilerPoints<=4) {
+      this.dealer.setPoints(this.calculatePoints(1));
+    }
 
+    if(dilerPoints == 5) {
+      if(playerPoints >=0 && playerPoints<=5) {
+        this.dealer.setPoints(this.calculatePoints(1));
+      }
+    }
   }
 
+  calculatePoints(count:number) {
+    let pointsFromArray = this.cardDesk.getCard(count).reduce(function(previousValue, currentValue) {
+      return previousValue + currentValue;
+    });
 
-  /*list of events
-  * user presses 'Start game' -> run on DocumentView, player with preconditions
-  * bet
-  * */
+    if(pointsFromArray == 10) {
+      return 0;
+    }
+
+    if(pointsFromArray > 10) {
+      pointsFromArray = pointsFromArray - 10;
+
+      if(pointsFromArray == 10) return 0;
+
+      return pointsFromArray;
+    }
+
+    return pointsFromArray;
+  }
 }
 
