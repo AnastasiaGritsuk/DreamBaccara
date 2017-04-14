@@ -37,13 +37,14 @@ export class AppComponent {
       return previousValue + currentValue;
     });
 
-    this.player.setPoints(pointsPlayer);
+    this.player.setPoints(this.calculatePoints(pointsPlayer));
 
     let pointsDealer = this.cardDesk.getCard(2).reduce(function(previousValue, currentValue) {
       return previousValue + currentValue;
     });
 
-    this.dealer.setPoints(pointsDealer);
+    this.dealer.setPoints(this.calculatePoints(pointsDealer));
+
     let betWinner: Bet = this.checkWinner();
     this.checkBet(betWinner);
   }
@@ -51,6 +52,9 @@ export class AppComponent {
   checkWinner(){
     let pPoints = this.player.getPoints();
     let dPoints = this.dealer.getPoints();
+
+    console.log('checkWinner: pPoints ' + pPoints);
+    console.log('checkWinner: dPoints ' + dPoints);
 
     if(pPoints == dPoints) {
       console.log('Tie')
@@ -69,10 +73,22 @@ export class AppComponent {
     let playerBet = this.player.getBet();
 
     if(playerBet.name == betWinner.name) {
-      console.log('Player won')
+      console.log('Player bet won')
     } else {
-      console.log('Dealer won')
+      console.log('Dealer bet won')
     }
+  }
+
+  calculatePoints(points:number) {
+    if(points == 10) {
+      return 0;
+    }
+    if(points > 10) {
+      return points - 10;
+    }
+
+    return points;
+
   }
 
 
