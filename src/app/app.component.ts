@@ -15,7 +15,7 @@ import {Dealer} from "./dealer";
 
 export class AppComponent {
 
-  public bet = {
+  public betInitial = {
     name: ''
   };
 
@@ -23,6 +23,10 @@ export class AppComponent {
     name:'',
     purse: 0
   };
+
+
+
+  bet: Bet;
   player: Player;
   game: Game;
   cardDesk:CardDesk;
@@ -31,13 +35,13 @@ export class AppComponent {
 
   constructor(_cardDesk:CardDesk) {
      this.cardDesk = _cardDesk;
-     this.dealer = new Player('Dealer', 1000000);
+     this.dealer = new Player('Dealer', 1000000, {name:'bankBet', factor:1});
   }
 
   run(betName:string) {
-    this.player = new Player(this.playerInitial.name, this.playerInitial.purse);
+    this.bet = new Bet(betName);
+    this.player = new Player(this.playerInitial.name, this.playerInitial.purse, this.bet);
     console.log('i am running');
-    this.player.setBet(betName);
     this.cardDesk.shuffle();
 
     this.player.setPoints(this.calculatePoints(2));
@@ -72,7 +76,7 @@ export class AppComponent {
   checkBet(betWinner:string) {
     let playerBet = this.player.getBet();
 
-    if(playerBet == betWinner) {
+    if(playerBet.name == betWinner) {
       console.log('Player bet won')
     } else {
       console.log('Dealer bet won')

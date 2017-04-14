@@ -3,11 +3,21 @@ import {Injectable} from "@angular/core";
 @Injectable()
 export class Bet  {
   name:string;
-  rate: number;
+  factor: number;
 
-  constructor(name:string, rate:number) {
+  constructor(name:string) {
     this.name = name;
-    this.rate = rate;
+
+    switch(name) {
+      case 'playerBet' : this.factor = 1;
+        break;
+      case 'bankBet' : this.factor = 0.95;
+        break;
+      case 'tieBet' : this.factor = 0.9;
+        break;
+      default : this.factor = 1;
+        break;
+    }
   }
 }
 

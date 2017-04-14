@@ -10,7 +10,7 @@
             <div class="cards__item"></div>
           </div>
           <div class="desk">
-            <button (click)="run(bet.name)">run</button>
+            <button (click)="run(betInitial.name)">run</button>
           </div>
         </div>
         <div class="panel panel_table">
@@ -20,7 +20,7 @@
               <div class="bet">
                 <div class="bet__item">
                   <label>Bank</label>
-                  <input type="radio" [(ngModel)]="bet.name" value="bankBet">
+                  <input type="radio" [(ngModel)]="betInitial.name" value="bankBet">
                 </div>
                 <div class="bet__item"></div>
                 <div class="bet__item"></div>
@@ -36,7 +36,7 @@
               <div class="bet">
                 <div class="bet__item">
                   <label>Player</label>
-                  <input type="radio" [(ngModel)]="bet.name" value="playerBet">
+                  <input type="radio" [(ngModel)]="betInitial.name" value="playerBet">
                 </div>
                 <div class="bet__item">1</div>
                 <div class="bet__item"></div>
@@ -53,7 +53,7 @@
               <div class="bet">
                 <div class="bet__item">
                   <label>Tie</label>
-                  <input type="radio" [(ngModel)]="bet.name" value="tieBet">
+                  <input type="radio" [(ngModel)]="betInitial.name" value="tieBet">
                 </div>
                 <div class="bet__item">1</div>
                 <div class="bet__item"></div>
@@ -72,6 +72,7 @@
           <div class="player">
             <input type="text" [(ngModel)]="playerInitial.name" class="player__item player__item_name">
             <input type="text" [(ngModel)]="playerInitial.purse" class="player__item player__item_balance">
+            <span *ngIf="player">{{player.purse}}</span>
           </div>
         </div>
       </div>
