@@ -10,7 +10,7 @@
             <div class="cards__item"></div>
           </div>
           <div class="desk">
-            <button (click)="run({name:'Tie', rate:3})">run</button>
+            <button (click)="run(bet.name)">run</button>
           </div>
         </div>
         <div class="panel panel_table">
@@ -19,8 +19,8 @@
             <div class="table__item">
               <div class="bet">
                 <div class="bet__item">
-                  <label></label>
-                  <input type="radio" value="">
+                  <label>Bank</label>
+                  <input type="radio" [(ngModel)]="bet.name" value="bankBet">
                 </div>
                 <div class="bet__item"></div>
                 <div class="bet__item"></div>
@@ -36,7 +36,7 @@
               <div class="bet">
                 <div class="bet__item">
                   <label>Player</label>
-                  <input type="radio" value="">
+                  <input type="radio" [(ngModel)]="bet.name" value="playerBet">
                 </div>
                 <div class="bet__item">1</div>
                 <div class="bet__item"></div>
@@ -53,7 +53,7 @@
               <div class="bet">
                 <div class="bet__item">
                   <label>Tie</label>
-                  <input type="radio" value="">
+                  <input type="radio" [(ngModel)]="bet.name" value="tieBet">
                 </div>
                 <div class="bet__item">1</div>
                 <div class="bet__item"></div>

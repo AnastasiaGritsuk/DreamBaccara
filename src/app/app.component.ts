@@ -14,9 +14,13 @@ import {Dealer} from "./dealer";
 })
 
 export class AppComponent {
+
+  public bet = {
+    name: ''
+  };
+
   game: Game;
   player:Player;
-  bet:Bet;
   cardDesk:CardDesk;
   dealer:Player;
   balance: Balance;
@@ -24,13 +28,12 @@ export class AppComponent {
   constructor(_cardDesk:CardDesk) {
      this.player = new Player('Angola', 500);
      this.cardDesk = _cardDesk;
-     this.bet = new Bet("", 1);
      this.dealer = new Player('Dealer', 1000000);
   }
 
-  run(bet:Bet) {
+  run(betName:string) {
     console.log('i am running');
-    this.player.setBet(bet);
+    this.player.setBet(betName);
     this.cardDesk.shuffle();
 
     let pointsPlayer = this.cardDesk.getCard(2).reduce(function(previousValue, currentValue) {
@@ -45,7 +48,7 @@ export class AppComponent {
 
     this.dealer.setPoints(this.calculatePoints(pointsDealer));
 
-    let betWinner: Bet = this.checkWinner();
+    let betWinner: string = this.checkWinner();
     this.checkBet(betWinner);
   }
 
@@ -58,21 +61,21 @@ export class AppComponent {
 
     if(pPoints == dPoints) {
       console.log('Tie')
-      return {name:'Tie',rate:1}
+      return 'tieBet';
     }
     if(pPoints>dPoints) {
       console.log('Player won');
-      return {name:'Player',rate:1}
+      return 'playerBet';
     }else {
       console.log('Dealer won');
-      return {name:'Dealer',rate:1}
+      return 'bankBet';
     }
   }
 
-  checkBet(betWinner:Bet) {
+  checkBet(betWinner:string) {
     let playerBet = this.player.getBet();
 
-    if(playerBet.name == betWinner.name) {
+    if(playerBet == betWinner) {
       console.log('Player bet won')
     } else {
       console.log('Dealer bet won')

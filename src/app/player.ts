@@ -7,7 +7,7 @@ export class Player  {
   name: string;
   points: number;
   purse: number;
-  bet:Bet;
+  bet:string;
 
   constructor(name:string,purse:number) {
     this.name = name;
@@ -15,8 +15,8 @@ export class Player  {
     this.purse = purse;
   }
 
-  setBet(bet:Bet){
-    this.bet = bet;
+  setBet(betName:string){
+    this.bet = betName;
   }
 
   setPoints(points:number) {
