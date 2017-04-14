@@ -70,8 +70,8 @@
         <div class="panel panel_players">
           <!--repeat players-->
           <div class="player">
-            <div class="player__item player__item_name">Anastasia</div>
-            <div class="player__item player__item_balance"></div>
+            <input type="text" [(ngModel)]="playerInitial.name" class="player__item player__item_name">
+            <input type="text" [(ngModel)]="playerInitial.purse" class="player__item player__item_balance">
           </div>
         </div>
       </div>

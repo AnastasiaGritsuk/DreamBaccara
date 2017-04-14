@@ -19,19 +19,23 @@ export class AppComponent {
     name: ''
   };
 
+  public playerInitial = {
+    name:'',
+    purse: 0
+  };
+  player: Player;
   game: Game;
-  player:Player;
   cardDesk:CardDesk;
   dealer:Player;
   balance: Balance;
 
   constructor(_cardDesk:CardDesk) {
-     this.player = new Player('Angola', 500);
      this.cardDesk = _cardDesk;
      this.dealer = new Player('Dealer', 1000000);
   }
 
   run(betName:string) {
+    this.player = new Player(this.playerInitial.name, this.playerInitial.purse);
     console.log('i am running');
     this.player.setBet(betName);
     this.cardDesk.shuffle();
