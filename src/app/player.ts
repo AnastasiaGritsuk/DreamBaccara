@@ -27,4 +27,13 @@ export class Player  {
   getBet() {
     return this.bet;
   }
+
+  updateBalance(){
+    if(this.bet.isWin) {
+      let sum = this.bet.getWinBet();
+      this.purse = this.purse + sum;
+    } else {
+      this.purse = this.purse - this.bet.amount;
+    }
+  }
 }

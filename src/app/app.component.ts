@@ -21,26 +21,25 @@ export class AppComponent {
 
   public playerInitial = {
     name:'',
-    purse: 0
+    purse: ''
   };
 
-
-
   bet: Bet;
+  dialerFakeBet: Bet;
   player: Player;
   game: Game;
   cardDesk:CardDesk;
   dealer:Player;
-  balance: Balance;
 
   constructor(_cardDesk:CardDesk) {
      this.cardDesk = _cardDesk;
-     this.dealer = new Player('Dealer', 1000000, {name:'bankBet', factor:1});
+     this.dialerFakeBet = new Bet('Dealer', 20);
+     this.dealer = new Player('Dealer', 1000000, this.dialerFakeBet);
   }
 
   run(betName:string) {
-    this.bet = new Bet(betName);
-    this.player = new Player(this.playerInitial.name, this.playerInitial.purse, this.bet);
+    this.bet = new Bet(betName, 100);
+    this.player = new Player(this.playerInitial.name, parseInt(this.playerInitial.purse), this.bet);
     console.log('i am running');
     this.cardDesk.shuffle();
 
@@ -51,6 +50,7 @@ export class AppComponent {
 
     let betWinner: string = this.checkWinner();
     this.checkBet(betWinner);
+    this.player.updateBalance();
   }
 
   checkWinner(){
@@ -77,6 +77,7 @@ export class AppComponent {
     let playerBet = this.player.getBet();
 
     if(playerBet.name == betWinner) {
+      this.player.bet.isWin = true;
       console.log('Player bet won')
     } else {
       console.log('Dealer bet won')
@@ -118,5 +119,7 @@ export class AppComponent {
 
     return pointsFromArray;
   }
+
+
 }
 
