@@ -119,7 +119,5 @@ export class AppComponent {
 
     return pointsFromArray;
   }
-
-
 }
 

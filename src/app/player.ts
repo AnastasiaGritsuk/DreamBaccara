@@ -6,13 +6,13 @@ import {Bet} from "./bet";
 export class Player  {
   name: string;
   points: number;
-  purse: number;
+  balance: Balance;
   bet:Bet;
 
-  constructor(name:string,purse:number,bet:Bet) {
+  constructor(name:string,balance:number,bet:Bet) {
     this.name = name;
     this.points = 0;
-    this.purse = purse;
+    this.balance = new Balance(balance);
     this.bet = bet;
   }
 
@@ -31,9 +31,13 @@ export class Player  {
   updateBalance(){
     if(this.bet.isWin) {
       let sum = this.bet.getWinBet();
-      this.purse = this.purse + sum;
+      this.balance.increase(sum);
     } else {
-      this.purse = this.purse - this.bet.amount;
+      this.balance.decrease(this.bet.amount);
     }
+  }
+
+  getBalance() {
+    return this.balance.getBalance();
   }
 }

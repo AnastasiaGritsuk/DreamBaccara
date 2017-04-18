@@ -72,7 +72,7 @@
           <div class="player">
             <input type="text" [(ngModel)]="playerInitial.name" class="player__item player__item_name">
             <input type="text" [(ngModel)]="playerInitial.purse" class="player__item player__item_balance">
-            <span *ngIf="player">{{player.purse}}</span>
+            <span *ngIf="player">{{player.getBalance()}}</span>
           </div>
         </div>
       </div>

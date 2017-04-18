@@ -2,17 +2,21 @@ import {Injectable} from "@angular/core";
 
 @Injectable()
 export class Balance  {
-  balance: number;
+  private amount: number;
 
   constructor(balance:number) {
-    this.balance = balance;
+    this.amount = balance;
   }
 
   increase(amount:number) {
-    this.balance = this.balance + amount;
+    this.amount = this.amount + amount;
   }
 
   decrease(amount:number) {
-    this.balance = this.balance - amount;
+    this.amount = this.amount - amount;
+  }
+
+  getBalance(){
+    return this.amount;
   }
 }
