@@ -78,7 +78,11 @@ body {
     -moz-box-flex: 0;
     -moz-flex: 0 0 100%;
     -ms-flex: 0 0 100%;
-    flex: 0 0 100%; }
+    flex: 0 0 100%;
+    border: 1px solid #49bcab;
+    border-radius: 4px;
+    padding: 15px;
+    margin: 20px auto; }
 
 .cards {
   display: -webkit-box;
@@ -96,12 +100,13 @@ body {
 .desk {
   height: 70px;
   width: 50px;
-  background-color: #ff3800; }
+  border: 1px solid #ff3800; }
 
 .cards__item {
   height: 70px;
-  width: 70px;
-  border: 1px solid #49bcab; }
+  width: 50px;
+  border: 1px solid #49bcab;
+  margin-right: 5px; }
 
 .panel {
   display: -webkit-box;
@@ -117,7 +122,9 @@ body {
   -moz-flex-direction: row;
   -ms-flex-direction: row;
   flex-direction: row;
-  justify-content: space-between; }
+  justify-content: space-between;
+  padding: 0 0 15px;
+  border-bottom: 1px solid #49bcab; }
 
 .panel_table {
   -webkit-box-direction: normal;
@@ -127,7 +134,9 @@ body {
   -ms-flex-direction: column;
   flex-direction: column;
   justify-content: space-around;
-  align-items: stretch; }
+  align-items: stretch;
+  padding: 0 0 15px;
+  border-bottom: 1px solid #49bcab; }
 
 .bet {
   display: -webkit-box;
@@ -161,4 +170,4 @@ body {
   padding: 20px 0; }
 
 .player__item {
-  padding: 0 0 10px; }
+  margin: 0 0 10px; }

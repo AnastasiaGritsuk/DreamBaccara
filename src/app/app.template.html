@@ -4,14 +4,11 @@
     <div class="layout-grid">
       <div class="layout-grid__container">
         <div class="panel panel_dealer">
-          <h3 class="panel__title">Dealer</h3>
-          <div class="cards">
-            <div class="cards__item"></div>
-            <div class="cards__item"></div>
+          <p class="panel__title">Dealer</p>
+          <div class="cards" *ngIf="dealer">
+            <div class="cards__item" *ngFor="let dealerCard of dealer.cards">{{dealerCard}}</div>
           </div>
-          <div class="desk">
-            <button (click)="run(betInitial.name)">run</button>
-          </div>
+          <div class="desk"></div>
         </div>
         <div class="panel panel_table">
           <!--repeat tables-->
@@ -27,9 +24,8 @@
                 <div class="bet__item">win</div>
                 <div class="bet__item"></div>
               </div>
-              <div class="cards">
-                <div class="cards__item"></div>
-                <div class="cards__item"></div>
+              <div class="cards" *ngIf="player">
+                <div class="cards__item" *ngFor="let playerCard of player.cards">{{playerCard}}</div>
               </div>
             </div>
             <div class="table__item">
@@ -43,9 +39,8 @@
                 <div class="bet__item">lost</div>
                 <div class="bet__item"></div>
               </div>
-              <div class="cards">
-                <div class="cards__item"></div>
-                <div class="cards__item"></div>
+              <div class="cards" *ngIf="player">
+                <div class="cards__item" *ngFor="let playerCard of player.cards">{{playerCard}}</div>
               </div>
             </div>
             <div class="table__item">
@@ -60,9 +55,8 @@
                 <div class="bet__item"></div>
                 <div class="bet__item"></div>
               </div>
-              <div class="cards">
-                <div class="cards__item"></div>
-                <div class="cards__item"></div>
+              <div class="cards" *ngIf="player">
+                <div class="cards__item" *ngFor="let playerCard of player.cards">{{playerCard}}</div>
               </div>
             </div>
           </div>
@@ -70,9 +64,10 @@
         <div class="panel panel_players">
           <!--repeat players-->
           <div class="player">
-            <input type="text" [(ngModel)]="playerInitial.name" class="player__item player__item_name">
-            <input type="text" [(ngModel)]="playerInitial.purse" class="player__item player__item_balance">
+            <input type="text" [(ngModel)]="playerInitial.name" placeholder="Enter your name" class="player__item player__item_name">
+            <input type="text" [(ngModel)]="playerInitial.purse" placeholder="Enter your amount" class="player__item player__item_balance">
             <span *ngIf="player">{{player.getBalance()}}</span>
+            <button (click)="run(betInitial.name)">start</button>
           </div>
         </div>
       </div>

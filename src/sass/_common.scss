@@ -46,8 +46,13 @@ body {
   &__container {
     max-width: calculateRem(900px);
     @include flex(0 0 100%);
+    border: 1px solid #49bcab;
+    border-radius: 4px;
+    padding: 15px;
+    margin: 20px auto;
   }
 }
+
 .cards {
   @include flexbox();
   @include flex-direction(row);
@@ -56,13 +61,14 @@ body {
 .desk {
   height: 70px;
   width: 50px;
-  background-color: #ff3800;
+  border: 1px solid #ff3800;
 }
 
 .cards__item {
   height: 70px;
-  width: 70px;
+  width: 50px;
   border: 1px solid #49bcab;
+  margin-right: 5px;
 }
 
 .panel {
@@ -72,12 +78,16 @@ body {
 .panel_dealer {
   @include flex-direction(row);
   justify-content:space-between;
+  padding: 0 0 15px;
+  border-bottom: 1px solid #49bcab;
 }
 
 .panel_table {
   @include flex-direction(column);
   justify-content: space-around;
   align-items: stretch;
+  padding: 0 0 15px;
+  border-bottom: 1px solid #49bcab;
 }
 
 .bet {
@@ -97,7 +107,7 @@ body {
 }
 
 .player__item {
-  padding: 0 0 10px;
+  margin: 0 0 10px;
 }
 
 

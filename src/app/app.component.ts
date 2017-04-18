@@ -42,9 +42,8 @@ export class AppComponent {
     this.player = new Player(this.playerInitial.name, parseInt(this.playerInitial.purse), this.bet);
     console.log('i am running');
     this.cardDesk.shuffle();
-
-    this.player.setPoints(this.calculatePoints(2));
-    this.dealer.setPoints(this.calculatePoints(2));
+    this.player.receiveCards(this.getCardsFromCardDesk(2));
+    this.dealer.receiveCards(this.getCardsFromCardDesk(2));
 
     this.isThirdCardNeeded(this.player.getPoints(), this.dealer.getPoints());
 
@@ -86,38 +85,22 @@ export class AppComponent {
 
   isThirdCardNeeded(playerPoints:number, dilerPoints:number) {
     if(playerPoints>=0 && playerPoints<=5) {
-      this.player.setPoints(this.calculatePoints(1));
+      this.player.receiveCards(this.getCardsFromCardDesk(1));
     }
 
     if(dilerPoints>=0 && dilerPoints<=4) {
-      this.dealer.setPoints(this.calculatePoints(1));
+      this.dealer.receiveCards(this.getCardsFromCardDesk(1));
     }
 
     if(dilerPoints == 5) {
       if(playerPoints >=0 && playerPoints<=5) {
-        this.dealer.setPoints(this.calculatePoints(1));
+        this.dealer.receiveCards(this.getCardsFromCardDesk(1));
       }
     }
   }
 
-  calculatePoints(count:number) {
-    let pointsFromArray = this.cardDesk.getCard(count).reduce(function(previousValue, currentValue) {
-      return previousValue + currentValue;
-    });
-
-    if(pointsFromArray == 10) {
-      return 0;
-    }
-
-    if(pointsFromArray > 10) {
-      pointsFromArray = pointsFromArray - 10;
-
-      if(pointsFromArray == 10) return 0;
-
-      return pointsFromArray;
-    }
-
-    return pointsFromArray;
+  getCardsFromCardDesk(count:number) {
+    return this.cardDesk.getCard(count);
   }
 }
 
