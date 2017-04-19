@@ -15,14 +15,9 @@
           <div class="table">
             <div class="table__item">
               <div class="bet">
-                <div class="bet__item">
-                  <label>Bank</label>
-                  <input type="radio" [(ngModel)]="betInitial.name" value="bankBet">
-                </div>
-                <div class="bet__item"></div>
-                <div class="bet__item"></div>
-                <div class="bet__item">win</div>
-                <div class="bet__item"></div>
+                <label class="label">Bank</label>
+                <input type="radio" [(ngModel)]="betInitial.name" value="bankBet" class="input">
+                <input type="number" [(ngModel)]="betAmount" class="input_number" min="1" max="1000">
               </div>
               <div class="cards" *ngIf="player">
                 <div class="cards__item" *ngFor="let playerCard of player.cards">{{playerCard}}</div>
@@ -30,14 +25,9 @@
             </div>
             <div class="table__item">
               <div class="bet">
-                <div class="bet__item">
-                  <label>Player</label>
-                  <input type="radio" [(ngModel)]="betInitial.name" value="playerBet">
-                </div>
-                <div class="bet__item">1</div>
-                <div class="bet__item"></div>
-                <div class="bet__item">lost</div>
-                <div class="bet__item"></div>
+                <label class="label">Player</label>
+                <input type="radio" [(ngModel)]="betInitial.name" value="playerBet" class="input">
+                <input type="number" [(ngModel)]="betAmount" class="input_number" min="1" max="1000">
               </div>
               <div class="cards" *ngIf="player">
                 <div class="cards__item" *ngFor="let playerCard of player.cards">{{playerCard}}</div>
@@ -46,14 +36,9 @@
             <div class="table__item">
               <!--repeat bets-->
               <div class="bet">
-                <div class="bet__item">
-                  <label>Tie</label>
-                  <input type="radio" [(ngModel)]="betInitial.name" value="tieBet">
-                </div>
-                <div class="bet__item">1</div>
-                <div class="bet__item"></div>
-                <div class="bet__item"></div>
-                <div class="bet__item"></div>
+                <label class="label">Tie</label>
+                <input type="radio" [(ngModel)]="betInitial.name" value="tieBet" class="input">
+                <input type="number" [(ngModel)]="betAmount" class="input_number" min="1" max="1000">
               </div>
               <div class="cards" *ngIf="player">
                 <div class="cards__item" *ngFor="let playerCard of player.cards">{{playerCard}}</div>

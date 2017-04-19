@@ -94,10 +94,10 @@ body {
   @include flexbox();
   @include flex-direction(row);
   padding: 20px 0;
-}
 
-.bet__item {
-  margin-right: 10px;
+  .label {
+    width: 50px;
+  }
 }
 
 .player {

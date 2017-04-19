@@ -24,6 +24,8 @@ export class AppComponent {
     purse: ''
   };
 
+  public betAmount = 0;
+
   bet: Bet;
   dialerFakeBet: Bet;
   player: Player;
@@ -38,7 +40,7 @@ export class AppComponent {
   }
 
   run(betName:string) {
-    this.bet = new Bet(betName, 100);
+    this.bet = new Bet(betName, this.betAmount);
     this.player = new Player(this.playerInitial.name, parseInt(this.playerInitial.purse), this.bet);
     console.log('i am running');
     this.cardDesk.shuffle();
