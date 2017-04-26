@@ -86,7 +86,6 @@ body {
   @include flex-direction(column);
   justify-content: space-around;
   align-items: stretch;
-  padding: 0 0 15px;
   border-bottom: 1px solid #49bcab;
 }
 
@@ -108,6 +107,12 @@ body {
 
 .player__item {
   margin: 0 0 10px;
+}
+
+.table[disabled] {
+  pointer-events: none;
+  cursor: default;
+  background-color: #dddddd;
 }
 
 

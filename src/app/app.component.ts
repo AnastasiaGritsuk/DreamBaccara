@@ -26,6 +26,8 @@ export class AppComponent {
 
   public betAmount = 0;
 
+  public isGameStarted = false;
+
   bet: Bet;
   dialerFakeBet: Bet;
   player: Player;
@@ -40,6 +42,7 @@ export class AppComponent {
   }
 
   run(betName:string) {
+    this.isGameStarted = true;
     this.bet = new Bet(betName, this.betAmount);
     this.player = new Player(this.playerInitial.name, parseInt(this.playerInitial.purse), this.bet);
     console.log('i am running');
