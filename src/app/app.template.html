@@ -50,9 +50,9 @@
           <!--repeat players-->
           <div class="player">
             <input type="text" [(ngModel)]="playerInitial.name" placeholder="Enter your name" class="player__item player__item_name">
-            <input type="text" [(ngModel)]="playerInitial.purse" placeholder="Enter your balance" class="player__item player__item_balance">
+            <input type="number" [(ngModel)]="playerInitial.purse" placeholder="Enter your balance" class="player__item player__item_balance">
             <span *ngIf="player">{{player.getBalance()}}</span>
-            <button (click)="run(betInitial.name)">start</button>
+            <button (click)="run(betInitial.name)" [disabled]="playerInitial.name === '' || playerInitial.purse === '' || betAmount === 0 || betInitial.name ===''">start</button>
           </div>
         </div>
       </div>
