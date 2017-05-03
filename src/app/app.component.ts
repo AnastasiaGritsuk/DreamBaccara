@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {CardDesk} from './cardDesk.'
+import {Deck} from './deck.'
 import {Balance} from "./balance";
 import {Bet} from "./bet";
 import {Game} from "./game";
@@ -10,7 +10,7 @@ import {Dealer} from "./dealer";
   moduleId: module.id,
   selector: 'my-app',
   templateUrl: 'app.template.html',
-  providers: [CardDesk, Balance, Bet, Game, Player]
+  providers: [Deck, Balance, Bet, Game, Player]
 })
 
 export class AppComponent {
@@ -32,11 +32,10 @@ export class AppComponent {
   dialerFakeBet: Bet;
   player: Player;
   game: Game;
-  cardDesk:CardDesk;
   dealer:Player;
+  cardDesk:Deck;
 
-  constructor(_cardDesk:CardDesk) {
-     this.cardDesk = _cardDesk;
+  constructor() {
      this.dialerFakeBet = new Bet('Dealer', 20);
      this.dealer = new Player('Dealer', 1000000, this.dialerFakeBet);
   }
@@ -46,6 +45,8 @@ export class AppComponent {
     this.bet = new Bet(betName, this.betAmount);
     this.player = new Player(this.playerInitial.name, parseInt(this.playerInitial.purse), this.bet);
     console.log('i am running');
+
+    this.cardDesk = new Deck();
     this.cardDesk.shuffle();
     this.player.receiveCards(this.getCardsFromCardDesk(2));
     this.dealer.receiveCards(this.getCardsFromCardDesk(2));
