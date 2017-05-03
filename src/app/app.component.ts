@@ -40,7 +40,7 @@ export class AppComponent {
      this.dealer = new Player('Dealer', 1000000, this.dialerFakeBet);
   }
 
-  run(betName:string) {
+  onStartClick(betName:string) {
     this.isGameStarted = true;
     this.bet = new Bet(betName, this.betAmount);
     this.player = new Player(this.playerInitial.name, parseInt(this.playerInitial.purse), this.bet);

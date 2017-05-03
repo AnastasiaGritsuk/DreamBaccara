@@ -52,7 +52,7 @@
             <input type="text" [(ngModel)]="playerInitial.name" placeholder="Enter your name" class="player__item player__item_name">
             <input type="number" [(ngModel)]="playerInitial.purse" placeholder="Enter your balance" class="player__item player__item_balance">
             <span *ngIf="player">{{player.getBalance()}}</span>
-            <button (click)="run(betInitial.name)" [disabled]="playerInitial.name === '' || playerInitial.purse === '' || betAmount === 0 || betInitial.name ===''">start</button>
+            <button (click)="onStartClick(betInitial.name)" [disabled]="playerInitial.name === '' || playerInitial.purse === '' || betAmount === 0 || betInitial.name ===''">start</button>
           </div>
         </div>
       </div>
