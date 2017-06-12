@@ -16,15 +16,15 @@ import {Dealer} from "./dealer";
 export class AppComponent {
 
   public betInitial = {
-    name: ''
+    name: 'bankBet'
   };
 
   public playerInitial = {
-    name:'',
-    purse: ''
+    name:'Demo',
+    purse: '100'
   };
 
-  public betAmount = 0;
+  public betAmount = 1;
 
   public isGameStarted = false;
 
