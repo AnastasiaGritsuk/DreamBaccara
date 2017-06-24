@@ -1,99 +1,108 @@
 import {Component} from '@angular/core';
 import {Deck} from './deck.'
 import {Balance} from "./balance";
-import {Bet} from "./bet";
-import {Game} from "./game";
 import {Player} from "./player";
-import {Dealer} from "./dealer";
 
 @Component({
   moduleId: module.id,
   selector: 'my-app',
-  templateUrl: 'app.template.html',
-  providers: [Deck, Balance, Bet, Game, Player]
+  templateUrl: 'app.template.html'
 })
 
 export class AppComponent {
 
-  public playerInitial = {
-    name:'Demo',
-    purse: '100'
-  };
-
   public betAmount = 10;
-
   public isGameStarted = false;
 
-  bet: Bet;
-  dialerFakeBet: Bet;
-  player: Player;
-  game: Game;
-  dealer:Player;
-  cardDesk:Deck;
+  cardDeck: Deck;
   bets = [
     {
       name: 'Player',
       value: 'playerBet',
-      multiplier: 1
-    },{
+      multiplier: 1,
+      isWin: false,
+      amount: 0
+    }, {
       name: 'Bank',
       value: 'bankBet',
-      multiplier: 0.95
-    },{
+      multiplier: 0.95,
+      isWin: false,
+      amount: 0
+    }, {
       name: 'Tie',
       value: 'tieBet',
-      multiplier: 0.9
+      multiplier: 0.9,
+      isWin: false,
+      amount: 0
     }
   ];
-  selectedBet:any = null;
+  selectedBet: any = null;
 
-  constructor() {
-    this.dialerFakeBet = new Bet('Dealer', 20);
-    this.dealer = new Player('Dealer', 1000000, this.dialerFakeBet);
-  }
+  dealer = {
+    name: 'Dialer',
+    points: 0,
+    balance: new Balance(200),
+    cards: [0]
+  };
 
-  onStartClick(betName:string) {
+  player = {
+    name: 'Demo',
+    points: 0,
+    balance: new Balance(200),
+    cards: [0],
+    bet: null
+  };
+
+  constructor() {}
+
+  onStartClick() {
     this.isGameStarted = true;
-    this.bet = new Bet(this.selectedBet.name, this.betAmount);
-    this.player = new Player(this.playerInitial.name, parseInt(this.playerInitial.purse), this.bet);
+    this.selectedBet.amount = this.betAmount;
+    this.player['bet'] = this.selectedBet;
     console.log('i am running');
 
-    this.cardDesk = new Deck();
-    this.cardDesk.shuffle();
-    this.player.receiveCards(this.getCardsFromCardDesk(2));
-    this.dealer.receiveCards(this.getCardsFromCardDesk(2));
+    this.cardDeck = new Deck();
+    this.cardDeck.shuffle();
 
-    this.isThirdCardNeeded(this.player.getPoints(), this.dealer.getPoints());
+    //for player
+    let newCards = this.getCardsFromCardDesk(2);
+    this.player.cards = this.player.cards.concat(newCards);
+    this.player.points = this.calculatePoints(this.player.cards);
+
+    //for dialer
+    let newCardsDealer = this.getCardsFromCardDesk(2);
+    this.dealer.cards = this.dealer.cards.concat(newCardsDealer);
+    this.dealer.points = this.calculatePoints(this.dealer.cards);
+
+    this.isThirdCardNeeded(this.player.points, this.dealer.points);
 
     let betWinner: string = this.checkWinner();
     this.checkBet(betWinner);
-    this.player.updateBalance();
+    this.updateBalance();
   }
 
-  checkWinner(){
-    let pPoints = this.player.getPoints();
-    let dPoints = this.dealer.getPoints();
+  checkWinner() {
+    let pPoints = this.player.points;
+    let dPoints = this.dealer.points;
 
     console.log('checkWinner: pPoints ' + pPoints);
     console.log('checkWinner: dPoints ' + dPoints);
 
-    if(pPoints == dPoints) {
+    if (pPoints == dPoints) {
       console.log('Tie')
       return 'tieBet';
     }
-    if(pPoints>dPoints) {
+    if (pPoints > dPoints) {
       console.log('Player won');
       return 'playerBet';
-    }else {
+    } else {
       console.log('Dealer won');
       return 'bankBet';
     }
   }
 
-  checkBet(betWinner:string) {
-    let playerBet = this.player.getBet();
-
-    if(playerBet.name == betWinner) {
+  checkBet(betWinner: string) {
+    if (this.player.bet.value == betWinner) {
       this.player.bet.isWin = true;
       console.log('Player bet won')
     } else {
@@ -101,24 +110,63 @@ export class AppComponent {
     }
   }
 
-  isThirdCardNeeded(playerPoints:number, dilerPoints:number) {
-    if(playerPoints>=0 && playerPoints<=5) {
-      this.player.receiveCards(this.getCardsFromCardDesk(1));
+  isThirdCardNeeded(playerPoints: number, dealerPoints: number) {
+    if (playerPoints >= 0 && playerPoints <= 5) {
+
+      let newCards = this.getCardsFromCardDesk(1);
+      this.player.cards = this.player.cards.concat(newCards);
+      this.player.points = this.calculatePoints(this.player.cards);
     }
 
-    if(dilerPoints>=0 && dilerPoints<=4) {
-      this.dealer.receiveCards(this.getCardsFromCardDesk(1));
+    if (dealerPoints >= 0 && dealerPoints <= 4) {
+      let newCardsDealer = this.getCardsFromCardDesk(1);
+      this.dealer.cards = this.dealer.cards.concat(newCardsDealer);
+      this.dealer.points = this.calculatePoints(this.dealer.cards);
     }
 
-    if(dilerPoints == 5) {
-      if(playerPoints >=0 && playerPoints<=5) {
-        this.dealer.receiveCards(this.getCardsFromCardDesk(1));
+    if (dealerPoints == 5) {
+      if (playerPoints >= 0 && playerPoints <= 5) {
+        let newCardsDealer = this.getCardsFromCardDesk(1);
+        this.dealer.cards = this.dealer.cards.concat(newCardsDealer);
+        this.dealer.points = this.calculatePoints(this.dealer.cards);
       }
     }
   }
 
-  getCardsFromCardDesk(count:number) {
-    return this.cardDesk.getCard(count);
+  getCardsFromCardDesk(count: number) {
+    return this.cardDeck.getCard(count);
+  }
+
+  getWinBet() {
+    return this.selectedBet.multiplier * this.betAmount;
+  }
+
+  updateBalance() {
+    if (this.player.bet.isWin) {
+      let sum = this.getWinBet();
+      this.player.balance.increase(sum);
+    } else {
+      this.player.balance.decrease(this.player.bet.amount);
+    }
+  }
+
+  calculatePoints(arr: number[]) {
+    let points = arr.reduce(function (previousValue, currentValue) {
+      return previousValue + currentValue;
+    });
+
+    if (points == 10) {
+      return 0;
+    }
+
+    if (points > 10) {
+      points = points - 10;
+
+      if (points == 10) return 0;
+
+      return points;
+    }
+
+    return points;
   }
 }
-

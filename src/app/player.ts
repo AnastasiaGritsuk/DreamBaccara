@@ -7,10 +7,10 @@ export class Player  {
   name: string;
   points: number;
   balance: Balance;
-  bet:Bet;
+  bet:any;
   cards:number[];
 
-  constructor(name:string,balance:number,bet:Bet) {
+  constructor(name:string,balance:number,bet:any) {
     this.name = name;
     this.points = 0;
     this.balance = new Balance(balance);

@@ -19,7 +19,7 @@
               </select>
 
               <input type="number" [(ngModel)]="betAmount" class="input_number" min="1" max="1000"
-                     [disabled]="playerInitial.name === '' || playerInitial.purse === ''">
+                     [disabled]="player.name === '' || player.balance === ''">
 
               <div class="cards" *ngIf="player">
                 <div class="cards__item" *ngFor="let playerCard of player.cards">{{playerCard}}</div>
@@ -30,10 +30,9 @@
         <div class="panel panel_players">
           <!--repeat players-->
           <div class="player">
-            <input type="text" [(ngModel)]="playerInitial.name" placeholder="Enter your name" class="player__item player__item_name">
-            <input type="number" [(ngModel)]="playerInitial.purse" placeholder="Enter your balance" class="player__item player__item_balance">
-            <span *ngIf="player">{{player.getBalance()}}</span>
-            <button (click)="onStartClick()" [disabled]="playerInitial.name === '' || playerInitial.purse === '' || betAmount === 0">start</button>
+            <input type="text" [(ngModel)]="player.name" placeholder="Enter your name" class="player__item player__item_name">
+            <input type="number" [(ngModel)]="player.balance.amount" placeholder="Enter your balance" class="player__item player__item_balance">
+            <button (click)="onStartClick()" [disabled]="player.name === '' || player.balance.amount === 0 || betAmount === 0">start</button>
           </div>
         </div>
       </div>

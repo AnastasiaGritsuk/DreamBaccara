@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 
 @Injectable()
 export class Balance  {
-  private amount: number;
+  amount: number;
 
   constructor(balance:number) {
     this.amount = balance;
