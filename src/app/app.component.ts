@@ -15,16 +15,12 @@ import {Dealer} from "./dealer";
 
 export class AppComponent {
 
-  public betInitial = {
-    name: 'bankBet'
-  };
-
   public playerInitial = {
     name:'Demo',
     purse: '100'
   };
 
-  public betAmount = 1;
+  public betAmount = 10;
 
   public isGameStarted = false;
 
@@ -34,15 +30,31 @@ export class AppComponent {
   game: Game;
   dealer:Player;
   cardDesk:Deck;
+  bets = [
+    {
+      name: 'Player',
+      value: 'playerBet',
+      multiplier: 1
+    },{
+      name: 'Bank',
+      value: 'bankBet',
+      multiplier: 0.95
+    },{
+      name: 'Tie',
+      value: 'tieBet',
+      multiplier: 0.9
+    }
+  ];
+  selectedBet:any = null;
 
   constructor() {
-     this.dialerFakeBet = new Bet('Dealer', 20);
-     this.dealer = new Player('Dealer', 1000000, this.dialerFakeBet);
+    this.dialerFakeBet = new Bet('Dealer', 20);
+    this.dealer = new Player('Dealer', 1000000, this.dialerFakeBet);
   }
 
   onStartClick(betName:string) {
     this.isGameStarted = true;
-    this.bet = new Bet(betName, this.betAmount);
+    this.bet = new Bet(this.selectedBet.name, this.betAmount);
     this.player = new Player(this.playerInitial.name, parseInt(this.playerInitial.purse), this.bet);
     console.log('i am running');
 
