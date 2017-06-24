@@ -42,16 +42,18 @@ export class AppComponent {
     name: 'Dialer',
     points: 0,
     balance: new Balance(200),
-    cards: [0]
+    cards: []
   };
 
   player = {
     name: 'Demo',
     points: 0,
     balance: new Balance(200),
-    cards: [0],
+    cards: [],
     bet: null
   };
+
+  winnerText = '';
 
   constructor() {}
 
@@ -104,9 +106,9 @@ export class AppComponent {
   checkBet(betWinner: string) {
     if (this.player.bet.value == betWinner) {
       this.player.bet.isWin = true;
-      console.log('Player bet won')
+      this.winnerText = 'Player bet won';
     } else {
-      console.log('Dealer bet won')
+      this.winnerText = 'Dealer bet won';
     }
   }
 
