@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {Deck} from './deck.'
 import {Balance} from "./balance";
-import {Player} from "./player";
 
 @Component({
   moduleId: module.id,
@@ -10,10 +9,7 @@ import {Player} from "./player";
 })
 
 export class AppComponent {
-
   public betAmount = 10;
-  public isGameStarted = false;
-
   cardDeck: Deck;
   bets = [
     {
@@ -58,7 +54,6 @@ export class AppComponent {
   constructor() {}
 
   onStartClick() {
-    this.isGameStarted = true;
     this.selectedBet.amount = this.betAmount;
     this.player['bet'] = this.selectedBet;
     console.log('i am running');

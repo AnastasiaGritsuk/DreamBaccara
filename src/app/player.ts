@@ -1,8 +1,5 @@
-import {Injectable} from "@angular/core";
 import {Balance} from "./balance";
-import {Bet} from "./bet";
 
-@Injectable()
 export class Player  {
   name: string;
   points: number;

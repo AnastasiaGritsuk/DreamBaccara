@@ -17,7 +17,6 @@
               <select [(ngModel)]="selectedBet">
                 <option *ngFor="let bet of bets" [ngValue]="bet">{{bet.name}}</option>
               </select>
-
               <input type="number" [(ngModel)]="betAmount" class="input_number" min="1" max="1000"
                      [disabled]="player.name === '' || player.balance === ''">
 
