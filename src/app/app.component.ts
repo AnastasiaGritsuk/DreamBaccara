@@ -55,27 +55,26 @@ export class AppComponent {
 
   onStartClick() {
     this.selectedBet.amount = this.betAmount;
-    this.player['bet'] = this.selectedBet;
+    this.player.bet = this.selectedBet;
     console.log('i am running');
 
     this.cardDeck = new Deck();
     this.cardDeck.shuffle();
 
-    //for player
-    let newCards = this.getCardsFromCardDesk(2);
-    this.player.cards = this.player.cards.concat(newCards);
-    this.player.points = this.calculatePoints(this.player.cards);
-
-    //for dialer
-    let newCardsDealer = this.getCardsFromCardDesk(2);
-    this.dealer.cards = this.dealer.cards.concat(newCardsDealer);
-    this.dealer.points = this.calculatePoints(this.dealer.cards);
+    this.updateCards(this.player, 2);
+    this.updateCards(this.dealer, 2);
 
     this.isThirdCardNeeded(this.player.points, this.dealer.points);
 
     let betWinner: string = this.checkWinner();
     this.checkBet(betWinner);
     this.updateBalance();
+  }
+
+  updateCards(player, cardsCount){
+    let newCards = this.getCardsFromCardDesk(cardsCount);
+    player.cards = player.cards.concat(newCards);
+    player.points = this.calculatePoints(player.cards);
   }
 
   checkWinner() {
@@ -109,23 +108,16 @@ export class AppComponent {
 
   isThirdCardNeeded(playerPoints: number, dealerPoints: number) {
     if (playerPoints >= 0 && playerPoints <= 5) {
-
-      let newCards = this.getCardsFromCardDesk(1);
-      this.player.cards = this.player.cards.concat(newCards);
-      this.player.points = this.calculatePoints(this.player.cards);
+      this.updateCards(this.player, 1);
     }
 
     if (dealerPoints >= 0 && dealerPoints <= 4) {
-      let newCardsDealer = this.getCardsFromCardDesk(1);
-      this.dealer.cards = this.dealer.cards.concat(newCardsDealer);
-      this.dealer.points = this.calculatePoints(this.dealer.cards);
+      this.updateCards(this.dealer, 1);
     }
 
     if (dealerPoints == 5) {
       if (playerPoints >= 0 && playerPoints <= 5) {
-        let newCardsDealer = this.getCardsFromCardDesk(1);
-        this.dealer.cards = this.dealer.cards.concat(newCardsDealer);
-        this.dealer.points = this.calculatePoints(this.dealer.cards);
+        this.updateCards(this.dealer, 1);
       }
     }
   }
