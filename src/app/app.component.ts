@@ -59,6 +59,7 @@ export class AppComponent {
     console.log('i am running');
 
     this.cardDeck = new Deck();
+    this.cardDeck.create();
     this.cardDeck.shuffle();
 
     this.updateCards(this.player, 2);
@@ -74,7 +75,7 @@ export class AppComponent {
   updateCards(player, cardsCount){
     let newCards = this.getCardsFromCardDesk(cardsCount);
     player.cards = player.cards.concat(newCards);
-    player.points = this.calculatePoints(player.cards);
+    player.points = this.calculatePoints(player.cards);// it is not update cards
   }
 
   checkWinner() {
@@ -139,8 +140,10 @@ export class AppComponent {
     }
   }
 
-  calculatePoints(arr: number[]) {
-    let points = arr.reduce(function (previousValue, currentValue) {
+  calculatePoints(arr: any[]) {
+    let points = arr.map((obj)=>{
+      return obj.value;
+    }).reduce(function (previousValue, currentValue) {
       return previousValue + currentValue;
     });
 
@@ -157,5 +160,9 @@ export class AppComponent {
     }
 
     return points;
+  }
+
+  onCreateNewGame(){
+
   }
 }

@@ -6,7 +6,7 @@
         <div class="panel panel_dealer">
           <p class="panel__title">Dealer</p>
           <div class="cards" *ngIf="dealer">
-            <div class="cards__item" *ngFor="let dealerCard of dealer.cards">{{dealerCard}}</div>
+            <div class="cards__item" *ngFor="let dealerCard of dealer.cards">{{dealerCard.name}}</div>
           </div>
           <div class="desk"></div>
         </div>
@@ -21,7 +21,7 @@
                      [disabled]="player.name === '' || player.balance === ''">
 
               <div class="cards" *ngIf="player">
-                <div class="cards__item" *ngFor="let playerCard of player.cards">{{playerCard}}</div>
+                <div class="cards__item" *ngFor="let playerCard of player.cards">{{playerCard.value}}</div>
               </div>
             </div>
           </div>
@@ -35,6 +35,8 @@
             <span>{{winnerText}}</span>
             <button (click)="onStartClick()"
                     [disabled]="player.name === '' || player.balance.amount === 0 || betAmount === 0">start</button>
+            <button (click)="onCreateNewGame()" *ngIf="false"
+                    [disabled]="player.name === '' || player.balance.amount === 0 || betAmount === 0">new game</button>
           </div>
         </div>
       </div>
