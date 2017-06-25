@@ -48,8 +48,8 @@ export class AppComponent {
     cards: [],
     bet: null
   };
-
-  winnerText = '';
+  winnerPlayerText = '';
+  winnerBetText = '';
 
   constructor() {}
 
@@ -86,14 +86,14 @@ export class AppComponent {
     console.log('checkWinner: dPoints ' + dPoints);
 
     if (pPoints == dPoints) {
-      console.log('Tie')
+      this.winnerPlayerText = 'Tie won';
       return 'tieBet';
     }
     if (pPoints > dPoints) {
-      console.log('Player won');
+      this.winnerPlayerText = 'Player won';
       return 'playerBet';
     } else {
-      console.log('Dealer won');
+      this.winnerPlayerText = 'Dealer won';
       return 'bankBet';
     }
   }
@@ -101,9 +101,9 @@ export class AppComponent {
   checkBet(betWinner: string) {
     if (this.player.bet.value == betWinner) {
       this.player.bet.isWin = true;
-      this.winnerText = 'Player bet won';
+      this.winnerBetText = 'Player bet won';
     } else {
-      this.winnerText = 'Dealer bet won';
+      this.winnerBetText = 'Player bet lost';
     }
   }
 

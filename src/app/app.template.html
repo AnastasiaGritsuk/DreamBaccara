@@ -32,7 +32,8 @@
                    placeholder="Enter your name" class="player__item player__item_name">
             <input type="number" [(ngModel)]="player.balance.amount"
                    placeholder="Enter your balance" class="player__item player__item_balance">
-            <span>{{winnerText}}</span>
+            <span>{{winnerPlayerText}}</span>
+            <span>{{winnerBetText}}</span>
             <button (click)="onStartClick()"
                     [disabled]="player.name === '' || player.balance.amount === 0 || betAmount === 0">start</button>
             <button (click)="onCreateNewGame()" *ngIf="false"
