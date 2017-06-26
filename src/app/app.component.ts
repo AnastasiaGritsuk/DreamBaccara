@@ -3,6 +3,7 @@ import {Deck} from './deck.'
 import {Balance} from "./balance";
 import {Bets} from "./bets";
 import {Player} from "./player";
+import {CardService} from "./cardService";
 
 @Component({
   moduleId: module.id,
@@ -36,7 +37,7 @@ export class AppComponent {
   winnerPlayerText = '';
   winnerBetText = '';
 
-  constructor() {}
+  constructor(public cardService: CardService) {};
 
   onStartClick() {
     this.selectedBet.amount = this.betAmount;
@@ -58,7 +59,7 @@ export class AppComponent {
   updateCards(player, cardsCount){
     let newCards = this.getCardsFromCardDesk(cardsCount);
     player.cards = player.cards.concat(newCards);
-    player.points = this.calculatePoints(player.cards);// it is not update cards
+    player.points = this.cardService.calculatePoints(player.cards);// it is not update cards
   }
 
   checkWinner() {
@@ -121,31 +122,5 @@ export class AppComponent {
     } else {
       this.player.balance.decrease(this.player.bet.amount);
     }
-  }
-
-  calculatePoints(arr: any[]) {
-    let points = arr.map((obj)=>{
-      return obj.value;
-    }).reduce(function (previousValue, currentValue) {
-      return previousValue + currentValue;
-    });
-
-    if (points == 10) {
-      return 0;
-    }
-
-    if (points > 10) {
-      points = points - 10;
-
-      if (points == 10) return 0;
-
-      return points;
-    }
-
-    return points;
-  }
-
-  onCreateNewGame(){
-
   }
 }
