@@ -1,14 +1,10 @@
-import {Injectable} from "@angular/core";
-import {Player} from "./player";
-import {Deck} from "./deck.";
-
-@Injectable()
 export class Game  {
-  player:Player;
-  cards:Deck;
+  history = [];
 
-  constructor(player: Player,cards: Deck){
-    this.player = player;
-    this.cards = cards;
+  createGame(player, deck){
+
   }
 }
+
+
+// can store history for specific player

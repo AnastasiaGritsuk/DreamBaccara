@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {Deck} from './deck.'
 import {Balance} from "./balance";
+import {Bets} from "./bets";
 
 @Component({
   moduleId: module.id,
@@ -11,27 +12,7 @@ import {Balance} from "./balance";
 export class AppComponent {
   public betAmount = 10;
   cardDeck: Deck;
-  bets = [
-    {
-      name: 'Player',
-      value: 'playerBet',
-      multiplier: 1,
-      isWin: false,
-      amount: 0
-    }, {
-      name: 'Bank',
-      value: 'bankBet',
-      multiplier: 0.95,
-      isWin: false,
-      amount: 0
-    }, {
-      name: 'Tie',
-      value: 'tieBet',
-      multiplier: 0.9,
-      isWin: false,
-      amount: 0
-    }
-  ];
+  bets = new Bets().getBets();
   selectedBet: any = null;
 
   dealer = {
