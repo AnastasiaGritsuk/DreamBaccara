@@ -22,4 +22,19 @@ export class CardService  {
     return points;
   }
 
+  isThirdCardNeeded(playerPoints: number, dealerPoints: number) {
+    if (playerPoints >= 0 && playerPoints <= 5)
+      return 'player';
+
+    if (dealerPoints >= 0 && dealerPoints <= 4)
+      return 'dealer';
+
+    if (dealerPoints == 5) {
+      if (playerPoints >= 0 && playerPoints <= 5) {
+        //this.updateCards(this.dealer, 1);
+        return 'dealer';
+      }
+    }
+    return '';
+  }
 }

@@ -20,8 +20,8 @@
               <input type="number" [(ngModel)]="betAmount" class="input_number" min="1" max="1000"
                      [disabled]="player.name === '' || player.balance === ''">
 
-              <div class="cards" *ngIf="player">
-                <div class="cards__item" *ngFor="let playerCard of player.cards">{{playerCard.value}}</div>
+              <div class="cards" *ngIf="gameSession">
+                <div class="cards__item" *ngFor="let playerCard of gameSession.cards">{{playerCard.value}}</div>
               </div>
             </div>
           </div>

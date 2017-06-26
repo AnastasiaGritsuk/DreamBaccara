@@ -4,6 +4,7 @@ import {Balance} from "./balance";
 import {Bets} from "./bets";
 import {Player} from "./player";
 import {CardService} from "./cardService";
+import {GameSession} from "./gameSession";
 
 @Component({
   moduleId: module.id,
@@ -13,9 +14,12 @@ import {CardService} from "./cardService";
 
 export class AppComponent {
   public betAmount = 10;
-  cardDeck: Deck;
+  cardDeck = new Deck();
   bets = new Bets().getBets();
   selectedBet: any = null;
+  gameSession: GameSession;
+
+  gamesHistory = {};
 
   dealer = {
     name: 'Dialer',
@@ -24,15 +28,7 @@ export class AppComponent {
     cards: []
   };
 
-  player1 = new Player('Nastya', 2000);
-
-  player = {
-    name: 'Demo',
-    points: 0,
-    balance: new Balance(200),
-    cards: [],
-    bet: null
-  };
+  player = new Player('Nastya', 2000);
 
   winnerPlayerText = '';
   winnerBetText = '';
@@ -40,16 +36,31 @@ export class AppComponent {
   constructor(public cardService: CardService) {};
 
   onStartClick() {
+
     this.selectedBet.amount = this.betAmount;
-    this.player.bet = this.selectedBet;
+    this.gameSession = new GameSession(this.player, this.selectedBet, this.cardDeck);
+    this.gamesHistory[this.player.id] = this.gameSession;
+
+    //this.player.bet = this.selectedBet;
     console.log('i am running');
 
-    this.cardDeck = new Deck();
+    this.updateCards(this.gameSession, 2);
+    this.gameSession.points = this.cardService.calculatePoints(this.gameSession.cards);
 
-    this.updateCards(this.player, 2);
     this.updateCards(this.dealer, 2);
+    this.dealer.points = this.cardService.calculatePoints(this.gameSession.cards);
 
-    this.isThirdCardNeeded(this.player.points, this.dealer.points);
+    let toThirdCard = this.cardService.isThirdCardNeeded(this.gameSession.points, this.dealer.points);
+
+    if(toThirdCard === 'player') {
+      this.updateCards(this.gameSession, 1);
+      this.gameSession.points = this.cardService.calculatePoints(this.gameSession.cards);
+    }
+
+    if(toThirdCard === 'dealer') {
+      this.updateCards(this.dealer, 1);
+      this.dealer.points = this.cardService.calculatePoints(this.gameSession.cards);
+    }
 
     let betWinner: string = this.checkWinner();
     this.checkBet(betWinner);
@@ -57,13 +68,12 @@ export class AppComponent {
   }
 
   updateCards(player, cardsCount){
-    let newCards = this.getCardsFromCardDesk(cardsCount);
+    let newCards = this.cardDeck.getCard(cardsCount);
     player.cards = player.cards.concat(newCards);
-    player.points = this.cardService.calculatePoints(player.cards);// it is not update cards
   }
 
   checkWinner() {
-    let pPoints = this.player.points;
+    let pPoints = this.gameSession.points;// it is like a gamesession method
     let dPoints = this.dealer.points;
 
     console.log('checkWinner: pPoints ' + pPoints);
@@ -83,44 +93,20 @@ export class AppComponent {
   }
 
   checkBet(betWinner: string) {
-    if (this.player.bet.value == betWinner) {
-      this.player.bet.isWin = true;
+    if (this.gameSession.bet.value == betWinner) {
+      this.gameSession.bet.isWin = true;
       this.winnerBetText = 'Player bet won';
     } else {
       this.winnerBetText = 'Player bet lost';
     }
   }
 
-  isThirdCardNeeded(playerPoints: number, dealerPoints: number) {
-    if (playerPoints >= 0 && playerPoints <= 5) {
-      this.updateCards(this.player, 1);
-    }
-
-    if (dealerPoints >= 0 && dealerPoints <= 4) {
-      this.updateCards(this.dealer, 1);
-    }
-
-    if (dealerPoints == 5) {
-      if (playerPoints >= 0 && playerPoints <= 5) {
-        this.updateCards(this.dealer, 1);
-      }
-    }
-  }
-
-  getCardsFromCardDesk(count: number) {
-    return this.cardDeck.getCard(count);
-  }
-
-  getWinBet() {
-    return this.selectedBet.multiplier * this.betAmount;
-  }
-
   updateBalance() {
-    if (this.player.bet.isWin) {
-      let sum = this.getWinBet();
-      this.player.balance.increase(sum);
+    if (this.gameSession.bet.isWin) {
+      let sum = this.selectedBet.multiplier * this.betAmount;
+      this.gameSession.player.balance.increase(sum);
     } else {
-      this.player.balance.decrease(this.player.bet.amount);
+      this.gameSession.player.balance.decrease(this.gameSession.bet.amount);
     }
   }
 }
