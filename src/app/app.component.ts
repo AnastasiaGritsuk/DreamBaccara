@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
 import {Deck} from './deck.'
-import {Balance} from "./balance";
 import {Bets} from "./bets";
 import {Player} from "./player";
 import {CardService} from "./cardService";
 import {GameSession} from "./gameSession";
+import {Dealer} from "./dealer";
 
 @Component({
   moduleId: module.id,
@@ -20,13 +20,7 @@ export class AppComponent {
   gameSession: GameSession;
 
   gamesHistory = {};
-
-  dealer = {
-    name: 'Dialer',
-    points: 0,
-    balance: new Balance(200),
-    cards: []
-  };
+  dealer = Dealer;
 
   player = new Player('Nastya', 2000);
 
@@ -48,7 +42,7 @@ export class AppComponent {
     this.gameSession.points = this.cardService.calculatePoints(this.gameSession.cards);
 
     this.updateCards(this.dealer, 2);
-    this.dealer.points = this.cardService.calculatePoints(this.gameSession.cards);
+    this.dealer.points = this.cardService.calculatePoints(this.dealer.cards);
 
     let toThirdCard = this.cardService.isThirdCardNeeded(this.gameSession.points, this.dealer.points);
 
@@ -59,7 +53,7 @@ export class AppComponent {
 
     if(toThirdCard === 'dealer') {
       this.updateCards(this.dealer, 1);
-      this.dealer.points = this.cardService.calculatePoints(this.gameSession.cards);
+      this.dealer.points = this.cardService.calculatePoints(this.dealer.cards);
     }
 
     let betWinner: string = this.checkWinner();

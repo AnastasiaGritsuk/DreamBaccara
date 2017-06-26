@@ -21,7 +21,7 @@
                      [disabled]="player.name === '' || player.balance === ''">
 
               <div class="cards" *ngIf="gameSession">
-                <div class="cards__item" *ngFor="let playerCard of gameSession.cards">{{playerCard.value}}</div>
+                <div class="cards__item" *ngFor="let playerCard of gameSession.cards">{{playerCard.name}}</div>
               </div>
             </div>
           </div>
