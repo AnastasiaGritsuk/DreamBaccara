@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {Deck} from './deck.'
 import {Balance} from "./balance";
 import {Bets} from "./bets";
+import {Player} from "./player";
 
 @Component({
   moduleId: module.id,
@@ -22,6 +23,8 @@ export class AppComponent {
     cards: []
   };
 
+  player1 = new Player('Nastya', 2000);
+
   player = {
     name: 'Demo',
     points: 0,
@@ -29,6 +32,7 @@ export class AppComponent {
     cards: [],
     bet: null
   };
+
   winnerPlayerText = '';
   winnerBetText = '';
 
@@ -40,8 +44,6 @@ export class AppComponent {
     console.log('i am running');
 
     this.cardDeck = new Deck();
-    this.cardDeck.create();
-    this.cardDeck.shuffle();
 
     this.updateCards(this.player, 2);
     this.updateCards(this.dealer, 2);
