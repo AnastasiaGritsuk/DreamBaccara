@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {Bets} from "./bets";
 import {Player} from "./player";
-import {GameSession} from "./gameSession";
+import {Game} from "./game";
 import {Dealer} from "./dealer";
 
 @Component({
@@ -14,7 +14,7 @@ export class AppComponent {
   public betAmount = 10;
   bets = new Bets().getBets();
   selectedBet: any = null;
-  gameSession: GameSession;
+  gameSession: Game;
 
   gamesHistory = {};
   dealer = Dealer;
@@ -27,7 +27,7 @@ export class AppComponent {
   onStartClick() {
 
     this.selectedBet.amount = this.betAmount;
-    this.gameSession = new GameSession(this.player, this.selectedBet);
+    this.gameSession = new Game(this.player, this.selectedBet);
     this.gamesHistory[this.player.id] = this.gameSession; // add after game finished
     console.log('i am running');
 
