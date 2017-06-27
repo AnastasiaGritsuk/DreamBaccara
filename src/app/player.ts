@@ -4,11 +4,15 @@ export class Player {
   id: number;
   name: string;
   balance: Balance;
+  points:number;
+  cards: any;
 
   constructor(name:string,balance:number) {
     this.id = this.uniqueId();
     this.name = name;
     this.balance = new Balance(balance);
+    this.points = 0;
+    this.cards = [];
   }
 
   uniqueId() {
@@ -17,4 +21,5 @@ export class Player {
 
     return Math.floor(date * random);
   };
+
 }

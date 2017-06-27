@@ -21,7 +21,7 @@
                      [disabled]="player.name === '' || player.balance === ''">
 
               <div class="cards" *ngIf="gameSession">
-                <div class="cards__item" *ngFor="let playerCard of gameSession.cards">{{playerCard.name}}</div>
+                <div class="cards__item" *ngFor="let playerCard of gameSession.player.cards">{{playerCard.name}}</div>
               </div>
             </div>
           </div>
@@ -32,7 +32,6 @@
                    placeholder="Enter your name" class="player__item player__item_name">
             <input type="number" [(ngModel)]="player.balance.amount"
                    placeholder="Enter your balance" class="player__item player__item_balance">
-            <span>{{winnerPlayerText}}</span>
             <span>{{winnerBetText}}</span>
             <button (click)="onStartClick()"
                     [disabled]="player.name === '' || player.balance.amount === 0 || betAmount === 0">start</button>
