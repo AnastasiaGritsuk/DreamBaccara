@@ -1,22 +1,8 @@
-import {Deck} from "./deck.";
-import {Dealer} from "./dealer";
-import {Player} from "./player";
-
 export class Game {
-  id: number;
-  player: Player;
-  deck: Deck;
-  bet: any;
-  dealer: any;
-  winBet: any;
+  gameHistory: any;
+  currentGame;
 
-  constructor(player: Player, bet: any){
-    this.id = this.uniqueId();
-    this.player = player;
-    this.deck = new Deck();
-    this.bet = bet;
-    this.dealer = Dealer;
-  }
+  constructor(){}
 
   uniqueId() {
     let date = Date.now();
@@ -26,25 +12,25 @@ export class Game {
   };
 
   updateBalance() {
-    if (this.bet.isWin) {
-      let sum = this.bet.multiplier * this.bet.betAmount;
-      this.player.balance.increase(sum);
+    if (this.currentGame.bet.isWin) {
+      let sum = this.currentGame.bet.multiplier * this.currentGame.bet.betAmount;
+      this.currentGame.player.balance.increase(sum);
     } else {
-      this.player.balance.decrease(this.bet.amount);
+      this.currentGame.player.balance.decrease(this.currentGame.bet.amount);
     }
   }
 
   processGame(){
-    this.drawCard(this.player, 2);
-    this.drawCard(this.dealer, 2);
-    this.isThirdCardNeeded(this.player.cards, this.player.cards);
-    this.checkWinBet(this.player.points, this.player.points);
+    this.drawCard(this.currentGame.player, 2);
+    this.drawCard(this.currentGame.dealer, 2);
+    this.isThirdCardNeeded(this.currentGame.player.cards, this.currentGame.player.cards);
+    this.checkWinBet(this.currentGame.player.points, this.currentGame.player.points);
     this.checkWinner();
     this.updateBalance();
   }
 
   drawCard(context, count) {
-    let newCards = this.deck.getCard(count);
+    let newCards = this.currentGame.deck.getCard(count);
     context.cards = context.cards.concat(newCards);
     context.points = this.calcPoints(context.cards);
   }
@@ -59,32 +45,32 @@ export class Game {
 
   isThirdCardNeeded(playerPoints, dealerPoints) {
     if (playerPoints >= 0 && playerPoints <= 5)
-      this.drawCard.call(this.player, 1);
+      this.drawCard.call(this.currentGame.player, 1);
 
     if (dealerPoints >= 0 && dealerPoints <= 4)
-      this.drawCard.call(this.dealer, 1);
+      this.drawCard.call(this.currentGame.dealer, 1);
 
     if (dealerPoints == 5) {
       if (playerPoints >= 0 && playerPoints <= 5) {
-        this.drawCard.call(this.dealer, 1);
+        this.drawCard.call(this.currentGame.dealer, 1);
       }
     }
   }
 
   checkWinner() {
-    if(this.bet.value === this.winBet){
-      this.bet.isWin = true;
+    if(this.currentGame.bet.value === this.currentGame.winBet){
+      this.currentGame.bet.isWin = true;
     }
   }
 
   checkWinBet(playerPoints, dealerPoints) {
     if (playerPoints == dealerPoints) {
-      this.winBet = 'tieBet';
+      this.currentGame.winBet = 'tieBet';
     }
     if (playerPoints > dealerPoints) {
-      this.winBet = 'playerBet';
+      this.currentGame.winBet = 'playerBet';
     } else {
-      this.winBet = 'bankBet';
+      this.currentGame.winBet = 'bankBet';
     }
   }
 

@@ -7,10 +7,10 @@ export class Player {
   points:number;
   cards: any;
 
-  constructor(name:string,balance:number) {
+  constructor(name:string, _balance:number) {
     this.id = this.uniqueId();
     this.name = name;
-    this.balance = new Balance(balance);
+    this.balance = new Balance(_balance);
     this.points = 0;
     this.cards = [];
   }

@@ -2,36 +2,48 @@ import {Component} from '@angular/core';
 import {Bets} from "./bets";
 import {Player} from "./player";
 import {Game} from "./game";
+import {Deck} from "./deck.";
 import {Dealer} from "./dealer";
 
 @Component({
   moduleId: module.id,
   selector: 'my-app',
-  templateUrl: 'app.template.html'
+  templateUrl: 'app.template.html',
+  providers: [Bets, Game]
 })
 
 export class AppComponent {
-  public betAmount = 10;
-  bets = new Bets().getBets();
-  selectedBet: any = null;
-  gameSession: Game;
+  betAmount = 10;
 
-  gamesHistory = {};
+  selectedBet: any = null;
+
+  constructor(public _bets: Bets, public game: Game) {};
+  /*initialize template*/
+  bets = this._bets.getBets();
+  player: any = {
+    name: 'Nastya',
+    balance: 200
+  };
+
   dealer = Dealer;
 
-  player = new Player('Nastya', 2000);
-  winnerBetText = '';
-
-  constructor() {};
-
   onStartClick() {
+    let playerName = this.player.name;
+    let playerBalance = this.player.balance;
 
+    this.player = new Player(playerName, playerBalance);
     this.selectedBet.amount = this.betAmount;
-    this.gameSession = new Game(this.player, this.selectedBet);
-    this.gamesHistory[this.player.id] = this.gameSession; // add after game finished
+    this.game.currentGame = {
+      id: 32423,
+      player: this.player,
+      deck: new Deck(),
+      bet: this.selectedBet,
+      dealer: Dealer
+    };
+
     console.log('i am running');
 
-    this.gameSession.processGame();
-    this.gameSession.showResults();
+    this.game.processGame();
+    this.game.showResults();
   }
 }
