@@ -15,7 +15,7 @@ import {Dealer} from "./dealer";
 export class AppComponent {
   betAmount = 10;
 
-  selectedBet: any = null;
+
 
   constructor(public _bets: Bets, public game: Game) {};
   /*initialize template*/
@@ -27,12 +27,14 @@ export class AppComponent {
     }
   };
 
+  selectedBet = this.bets[0];
+
   dealer = Dealer;
   currentGame = null;
 
   onStartClick() {
     let playerName = this.player.name;
-    let playerBalance = this.player.balance;
+    let playerBalance = this.player.balance.amount;
 
     this.player = new Player(playerName, playerBalance);
     this.selectedBet.amount = this.betAmount;

@@ -52,17 +52,13 @@ export class Game {
 
     if (playerPoints >= 0 && playerPoints <= 5) {
       this.drawCard('player', 1);
-      return;
     }
     if (dealerPoints >= 0 && dealerPoints <= 4) {
       this.drawCard('dealer', 1);
-      return;
     }
-
     if (dealerPoints == 5) {
       if (playerPoints >= 0 && playerPoints <= 5) {
         this.drawCard('dealer', 1);
-        return;
       }
     }
   }
