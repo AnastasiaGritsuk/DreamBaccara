@@ -3,22 +3,6 @@ export class Game {
   data;
   constructor(){}
 
-  uniqueId() {
-    let date = Date.now();
-    let random = Math.random() * Math.random();
-
-    return Math.floor(date * random);
-  };
-
-  updateBalance() {
-    if (this.data.bet.isWin) {
-      let sum = this.data.bet.multiplier * this.data.bet.betAmount;
-      this.data.player.balance.increase(sum);
-    } else {
-      this.data.player.balance.decrease(this.data.bet.amount);
-    }
-  }
-
   processGame(data){
     this.data = data;
 
@@ -32,6 +16,7 @@ export class Game {
     return this.data;
   }
 
+
   drawCard(context, count) {
     let newCards = this.data.deck.getCard(count);
     this.data[context].cards = this.data[context].cards.concat(newCards);
@@ -42,7 +27,7 @@ export class Game {
     return arr.map((obj)=>{
       return obj.value;
     }).reduce(function (previousValue, currentValue) {
-      return previousValue + currentValue;
+      return (previousValue + currentValue)%10;
     });
   }
 
@@ -80,6 +65,15 @@ export class Game {
       this.data.winBet = 'playerBet';
     } else {
       this.data.winBet = 'bankBet';
+    }
+  }
+
+  updateBalance() {
+    if (this.data.bet.isWin) {
+      let sum = this.data.bet.multiplier * this.data.bet.betAmount;
+      this.data.player.balance.increase(sum);
+    } else {
+      this.data.player.balance.decrease(this.data.bet.amount);
     }
   }
 

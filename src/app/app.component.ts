@@ -14,7 +14,7 @@ import {Dealer} from "./dealer";
 
 export class AppComponent {
   betAmount = 10;
-
+  isGameStarted = false;
 
 
   constructor(public _bets: Bets, public game: Game) {};
@@ -48,6 +48,7 @@ export class AppComponent {
      };
 
     this.currentGame = this.game.processGame(data);
+    this.isGameStarted = true;
   }
 
   uniqueId() {
@@ -56,4 +57,17 @@ export class AppComponent {
 
     return Math.floor(date * random);
   };
+
+  renewGame() {
+    this.currentGame = null;
+    this.isGameStarted = false;
+    this.player = {
+      name: '',
+      balance: {
+        amount: 0
+      }
+    };
+    this.dealer.points = 0;
+    this.dealer.cards = [];
+  }
 }
