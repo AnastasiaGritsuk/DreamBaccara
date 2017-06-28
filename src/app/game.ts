@@ -1,7 +1,6 @@
 export class Game {
   gameHistory: any;
-  currentGame;
-
+  data;
   constructor(){}
 
   uniqueId() {
@@ -12,27 +11,31 @@ export class Game {
   };
 
   updateBalance() {
-    if (this.currentGame.bet.isWin) {
-      let sum = this.currentGame.bet.multiplier * this.currentGame.bet.betAmount;
-      this.currentGame.player.balance.increase(sum);
+    if (this.data.bet.isWin) {
+      let sum = this.data.bet.multiplier * this.data.bet.betAmount;
+      this.data.player.balance.increase(sum);
     } else {
-      this.currentGame.player.balance.decrease(this.currentGame.bet.amount);
+      this.data.player.balance.decrease(this.data.bet.amount);
     }
   }
 
-  processGame(){
-    this.drawCard(this.currentGame.player, 2);
-    this.drawCard(this.currentGame.dealer, 2);
-    this.isThirdCardNeeded(this.currentGame.player.cards, this.currentGame.player.cards);
-    this.checkWinBet(this.currentGame.player.points, this.currentGame.player.points);
+  processGame(data){
+    this.data = data;
+
+    this.drawCard('player', 2);
+    this.drawCard('dealer', 2);
+    this.isThirdCardNeeded();
+    this.checkWinBet();
     this.checkWinner();
     this.updateBalance();
+
+    return this.data;
   }
 
   drawCard(context, count) {
-    let newCards = this.currentGame.deck.getCard(count);
-    context.cards = context.cards.concat(newCards);
-    context.points = this.calcPoints(context.cards);
+    let newCards = this.data.deck.getCard(count);
+    this.data[context].cards = this.data[context].cards.concat(newCards);
+    this.data[context].points = this.calcPoints(this.data[context].cards);
   }
 
   calcPoints(arr: any[]){
@@ -43,40 +46,48 @@ export class Game {
     });
   }
 
-  isThirdCardNeeded(playerPoints, dealerPoints) {
-    if (playerPoints >= 0 && playerPoints <= 5)
-      this.drawCard.call(this.currentGame.player, 1);
+  isThirdCardNeeded() {
+    let playerPoints = this.data.player.points;
+    let dealerPoints = this.data.dealer.points;
 
-    if (dealerPoints >= 0 && dealerPoints <= 4)
-      this.drawCard.call(this.currentGame.dealer, 1);
+    if (playerPoints >= 0 && playerPoints <= 5) {
+      this.drawCard('player', 1);
+      return;
+    }
+    if (dealerPoints >= 0 && dealerPoints <= 4) {
+      this.drawCard('dealer', 1);
+      return;
+    }
 
     if (dealerPoints == 5) {
       if (playerPoints >= 0 && playerPoints <= 5) {
-        this.drawCard.call(this.currentGame.dealer, 1);
+        this.drawCard('dealer', 1);
+        return;
       }
     }
   }
 
   checkWinner() {
-    if(this.currentGame.bet.value === this.currentGame.winBet){
-      this.currentGame.bet.isWin = true;
-    }
-  }
-
-  checkWinBet(playerPoints, dealerPoints) {
-    if (playerPoints == dealerPoints) {
-      this.currentGame.winBet = 'tieBet';
-    }
-    if (playerPoints > dealerPoints) {
-      this.currentGame.winBet = 'playerBet';
+    if(this.data.bet.value === this.data.winBet){
+      this.data.bet.isWin = true;
+      console.log('Player won');
     } else {
-      this.currentGame.winBet = 'bankBet';
+      console.log('Dealer won');
     }
   }
 
-  showResults(){
-    return {
-
+  checkWinBet() {
+    if (this.data.player.points == this.data.dealer.points) {
+      this.data.winBet = 'tieBet';
     }
+    if (this.data.player.points > this.data.dealer.points) {
+      this.data.winBet = 'playerBet';
+    } else {
+      this.data.winBet = 'bankBet';
+    }
+  }
+
+  addToHistory(game){
+    this.gameHistory.push(game);
   }
 }

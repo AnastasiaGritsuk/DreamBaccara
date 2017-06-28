@@ -22,10 +22,13 @@ export class AppComponent {
   bets = this._bets.getBets();
   player: any = {
     name: 'Nastya',
-    balance: 200
+    balance: {
+      amount: 200
+    }
   };
 
   dealer = Dealer;
+  currentGame = null;
 
   onStartClick() {
     let playerName = this.player.name;
@@ -33,17 +36,22 @@ export class AppComponent {
 
     this.player = new Player(playerName, playerBalance);
     this.selectedBet.amount = this.betAmount;
-    this.game.currentGame = {
-      id: 32423,
-      player: this.player,
-      deck: new Deck(),
-      bet: this.selectedBet,
-      dealer: Dealer
-    };
 
-    console.log('i am running');
+    let data = {
+       id: this.uniqueId(),
+       player: this.player,
+       deck: new Deck(),
+       bet: this.selectedBet,
+       dealer: Dealer
+     };
 
-    this.game.processGame();
-    this.game.showResults();
+    this.currentGame = this.game.processGame(data);
   }
+
+  uniqueId() {
+    let date = Date.now();
+    let random = Math.random() * Math.random();
+
+    return Math.floor(date * random);
+  };
 }

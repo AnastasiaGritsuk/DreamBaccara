@@ -17,7 +17,7 @@ export class Deck  {
 
   createDeck(){
     let names = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
-    let suits = ['Hearts','Diamonds','Spades','Clubs'];
+    let suits = ['H','D','S','C'];
 
     for( let s = 0; s < suits.length; s++ ) {
       for( let n = 0; n < names.length; n++ ) {
