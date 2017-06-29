@@ -51,9 +51,9 @@ export class Game {
   checkWinner() {
     if(this.data.bet.value === this.data.winBet){
       this.data.bet.isWin = true;
-      console.log('Player won');
+      this.data.text = 'Player won';
     } else {
-      console.log('Dealer won');
+      this.data.text = 'Dealer won';
     }
   }
 
@@ -70,7 +70,7 @@ export class Game {
 
   updateBalance() {
     if (this.data.bet.isWin) {
-      let sum = this.data.bet.multiplier * this.data.bet.betAmount;
+      let sum = this.data.bet.multiplier * this.data.bet.amount;
       this.data.player.balance.increase(sum);
     } else {
       this.data.player.balance.decrease(this.data.bet.amount);

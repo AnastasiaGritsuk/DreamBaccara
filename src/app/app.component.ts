@@ -44,7 +44,8 @@ export class AppComponent {
        player: this.player,
        deck: new Deck(),
        bet: this.selectedBet,
-       dealer: Dealer
+       dealer: Dealer,
+       text: ''
      };
 
     this.currentGame = this.game.processGame(data);
