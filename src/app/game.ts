@@ -1,3 +1,25 @@
+export enum BetType {
+  Player,
+  Bank,
+  Tie
+};
+
+const Bets = {
+  [BetType.Player]:{
+    multiplier: 1
+  },
+  [BetType.Bank]:{
+    multiplier: 0.95
+  },
+  [BetType.Tie]:{
+    multiplier: 0.9
+  }
+};
+
+export const DefaultBetType = BetType.Bank;
+export const DefaultBetValue = 10;
+
+
 export class Game {
   gameHistory: any;
   data;
@@ -80,4 +102,8 @@ export class Game {
   addToHistory(game){
     this.gameHistory.push(game);
   }
+}
+
+export class Bet {
+  constructor(public type: BetType, public value: number){}
 }

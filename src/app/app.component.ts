@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
-import {Bets} from "./bets";
 import {Player} from "./player";
-import {Game} from "./game";
+import {DefaultBetType, DefaultBetValue, Bet, BetType, Game} from "./game";
 import {Deck} from "./deck.";
 import {Dealer} from "./dealer";
 
@@ -9,17 +8,14 @@ import {Dealer} from "./dealer";
   moduleId: module.id,
   selector: 'my-app',
   templateUrl: 'app.template.html',
-  providers: [Bets, Game]
+  providers: [Game]
 })
 
 export class AppComponent {
-  betAmount = 10;
   isGameStarted = false;
 
-
-  constructor(public _bets: Bets, public game: Game) {};
+  constructor(public game: Game) {};
   /*initialize template*/
-  bets = this._bets.getBets();
   player: any = {
     name: 'Nastya',
     balance: {
@@ -27,7 +23,21 @@ export class AppComponent {
     }
   };
 
-  selectedBet = this.bets[0];
+  getBetType() {
+    let arr = [];
+    for (const type in BetType) {
+      if (!Number(type) && +type != 0) {
+        arr.push({
+          name:type,
+          value: BetType[type]
+        });
+      }
+    }
+    return arr;
+  }
+
+  betTypes = this.getBetType();
+  currentBet = new Bet(DefaultBetType, DefaultBetValue);
 
   dealer = Dealer;
   currentGame = null;
@@ -37,13 +47,13 @@ export class AppComponent {
     let playerBalance = this.player.balance.amount;
 
     this.player = new Player(playerName, playerBalance);
-    this.selectedBet.amount = this.betAmount;
+    //this.currentBet.amount = this.betAmount;
 
     let data = {
        id: this.uniqueId(),
        player: this.player,
        deck: new Deck(),
-       bet: this.selectedBet,
+       bet: this.currentBet,
        dealer: Dealer,
        text: ''
      };
