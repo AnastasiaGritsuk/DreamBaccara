@@ -1,27 +1,31 @@
 import {Component} from '@angular/core';
-import {Player} from "./player";
-import {DefaultBetType, DefaultBetValue, Bet, BetType, Game} from "./game";
+import {DefaultBetType, DefaultBetValue, Bet, BetType, Game, Table, Wallet, Player} from "./game";
 import {Deck} from "./deck.";
 import {Dealer} from "./dealer";
 
 @Component({
   moduleId: module.id,
   selector: 'my-app',
-  templateUrl: 'app.template.html',
-  providers: [Game]
+  templateUrl: 'app.template.html'
 })
 
 export class AppComponent {
-  isGameStarted = false;
+  table: Table;
+  player: Wallet;
+  game: Game;
 
-  constructor(public game: Game) {};
-  /*initialize template*/
-  player: any = {
-    name: 'Nastya',
-    balance: {
-      amount: 200
-    }
+  constructor() {
+    this.reset();
   };
+
+  playerMoney = 0;
+  betTypes = this.getBetType();
+  currentBet = new Bet(DefaultBetType, DefaultBetValue);
+
+  reset(){
+    this.player = new Wallet(this.playerMoney, 'Player');
+    this.table = new Table();
+  }
 
   getBetType() {
     let arr = [];
@@ -36,21 +40,13 @@ export class AppComponent {
     return arr;
   }
 
-  betTypes = this.getBetType();
-  currentBet = new Bet(DefaultBetType, DefaultBetValue);
-
-  dealer = Dealer;
-  currentGame = null;
-
   onStartClick() {
     let playerName = this.player.name;
-    let playerBalance = this.player.balance.amount;
+    //let playerBalance = this.player.balance.amount;
 
-    this.player = new Player(playerName, playerBalance);
     //this.currentBet.amount = this.betAmount;
 
     let data = {
-       id: this.uniqueId(),
        player: this.player,
        deck: new Deck(),
        bet: this.currentBet,
@@ -58,27 +54,11 @@ export class AppComponent {
        text: ''
      };
 
-    this.currentGame = this.game.processGame(data);
-    this.isGameStarted = true;
+    //this.currentGame = this.game.processGame(data);
   }
 
-  uniqueId() {
-    let date = Date.now();
-    let random = Math.random() * Math.random();
-
-    return Math.floor(date * random);
-  };
-
-  renewGame() {
-    this.currentGame = null;
-    this.isGameStarted = false;
-    this.player = {
-      name: '',
-      balance: {
-        amount: 0
-      }
-    };
-    this.dealer.points = 0;
-    this.dealer.cards = [];
+  onReady(){
+    this.table.newGame(this.player);
   }
+
 }

@@ -16,6 +16,7 @@ const Bets = {
   }
 };
 
+export const BankMoney = 10000;
 export const DefaultBetType = BetType.Bank;
 export const DefaultBetValue = 10;
 
@@ -23,9 +24,15 @@ export const DefaultBetValue = 10;
 export class Game {
   gameHistory: any;
   data;
-  constructor(){}
+  dealer: Dealer;
+  player: Player;
 
-  processGame(data){
+  constructor(public dealerWallet: Wallet, public playerWallet: Wallet) {
+    this.dealer = new Dealer(dealerWallet);
+    this.player = new Player(playerWallet);
+  }
+
+  processGame(data) {
     this.data = data;
 
     this.drawCard('player', 2);
@@ -45,11 +52,11 @@ export class Game {
     this.data[context].points = this.calcPoints(this.data[context].cards);
   }
 
-  calcPoints(arr: any[]){
-    return arr.map((obj)=>{
+  calcPoints(arr: any[]) {
+    return arr.map((obj) => {
       return obj.value;
     }).reduce(function (previousValue, currentValue) {
-      return (previousValue + currentValue)%10;
+      return (previousValue + currentValue) % 10;
     });
   }
 
@@ -71,7 +78,7 @@ export class Game {
   }
 
   checkWinner() {
-    if(this.data.bet.value === this.data.winBet){
+    if (this.data.bet.value === this.data.winBet) {
       this.data.bet.isWin = true;
       this.data.text = 'Player won';
     } else {
@@ -99,11 +106,54 @@ export class Game {
     }
   }
 
-  addToHistory(game){
+  addToHistory(game) {
     this.gameHistory.push(game);
   }
 }
 
 export class Bet {
   constructor(public type: BetType, public value: number){}
+}
+
+export  class Wallet {
+  constructor(public money: number, public name: string){}
+
+  get(){
+    return this.money;
+  }
+
+  set(money: number) {
+    this.money =+ money;
+  }
+}
+
+export class Table {
+  dealer = new Wallet(BankMoney, 'Dealer');
+
+  newGame(player: Wallet):Game{
+    return new Game(this.dealer, player);
+  }
+}
+
+export class Player {
+  cards: Card[];
+  constructor(public wallet: Wallet){}
+
+  makeBet(bet: Bet){
+
+  }
+}
+
+export interface Card{
+  value:number,
+  name:string,
+  suit:string
+}
+
+export class Dealer{
+  cards:Card[];
+
+  constructor(public waller: Wallet){}
+
+  finishGame(){}
 }

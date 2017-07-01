@@ -21,9 +21,7 @@
                   {{bet.name}}
                 </option>
               </select>
-              <input type="number" [(ngModel)]="currentBet.value" class="panel__input" min="1" max="1000"
-
-                     [disabled]="player.name === '' || player.balance === ''">
+              <input type="number" [(ngModel)]="currentBet.value" class="panel__input" min="1" max="1000">
 
               <div class="cards" *ngIf="game">
                 <div class="cards__item" *ngFor="let playerCard of player.cards">
@@ -39,11 +37,10 @@
                    placeholder="Enter your name" class="player__item player__item_name">
             <input type="number" [(ngModel)]="player.balance.amount"
                    placeholder="Enter your balance" class="player__item player__item_balance">
-            <span *ngIf="currentGame">{{currentGame.text}}</span>
-            <button *ngIf="!isGameStarted" (click)="onStartClick()" class="panel__button"
-                    [disabled]="player.name === '' || player.balance.amount === 0 || betAmount === 0">Start Game</button>
-            <button *ngIf="isGameStarted" (click)="renewGame()" class="panel__button"
-                    [disabled]="player.name === '' || player.balance.amount === 0 || betAmount === 0">Setup New Game</button>
+
+            <button type="button" (click)="onReady()"  class="panel__button"></button>
+            <button type="button" (click)="onStartClick()" class="panel__button"></button>
+            <button type="button"  class="panel__button"></button>
           </div>
         </div>
       </div>
