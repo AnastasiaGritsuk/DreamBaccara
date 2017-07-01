@@ -4,7 +4,7 @@ export class Deck  {
   cards:Card[] = [];
 
   constructor() {
-    this.createDeck();
+    this.create();
   }
 
   shuffle():void {
@@ -14,7 +14,7 @@ export class Deck  {
     }
   }
 
-  createDeck(){
+  create(){
     let names = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
     let suits = ['H','D','S','C'];
 
@@ -30,12 +30,7 @@ export class Deck  {
     return n;
   }
 
-  getCard(count:number) {
-    let result:Card[] =[];
-
-    for(var i=0;i<count;i++) {
-      result.push(this.cards.shift());
-    }
-    return result;
+  takeOne():Card {
+    return this.cards.shift();
   }
 }

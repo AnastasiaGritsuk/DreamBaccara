@@ -55,6 +55,24 @@ export class Game {
     this.deck.shuffle();
   }
 
+  dealt1(){
+    this.player.receiveCard(this.deck.takeOne());
+    this.player.receiveCard(this.deck.takeOne());
+  }
+
+  dealtDealer1(){
+    this.dealer.receiveCard(this.deck.takeOne());
+    this.dealer.receiveCard(this.deck.takeOne());
+  }
+
+  dealt2(){
+    this.player.receiveCard(this.deck.takeOne());
+  }
+
+  dealtDealer2(){
+
+  }
+
   drawCard(context, count) {
     let newCards = this.data.deck.getCard(count);
     this.data[context].cards = this.data[context].cards.concat(newCards);
@@ -148,6 +166,10 @@ export class Player {
   makeBet(bet: Bet){
     this.bet = bet;
   }
+
+  receiveCard(card: Card){
+    this.cards.push(card);
+  }
 }
 
 export interface Card{
@@ -160,6 +182,10 @@ export class Dealer{
   cards:Card[];
 
   constructor(public waller: Wallet){}
+
+  receiveCard(card: Card){
+    this.cards.push(card);
+  }
 
   finishGame(){}
 }

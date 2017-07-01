@@ -53,4 +53,20 @@ export class AppComponent {
   onShuffle(){
     this.game.shuffle();
   }
+
+  onDealt1(){
+    this.game.dealt1();
+  }
+
+  onDealtDealer1(){
+    this.game.dealtDealer1();
+  }
+
+  onDealt2(){
+    this.game.dealt2();
+  }
+
+  onDealtDealer2(){
+    this.game.dealtDealer2();
+  }
 }
