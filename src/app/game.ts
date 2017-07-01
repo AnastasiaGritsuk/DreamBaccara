@@ -45,6 +45,9 @@ export class Game {
     return this.data;
   }
 
+  makeBet(bet: Bet){
+    this.player.makeBet(bet);
+  }
 
   drawCard(context, count) {
     let newCards = this.data.deck.getCard(count);
@@ -137,10 +140,11 @@ export class Table {
 
 export class Player {
   cards: Card[];
+  bet;
   constructor(public wallet: Wallet){}
 
   makeBet(bet: Bet){
-
+    this.bet = bet;
   }
 }
 

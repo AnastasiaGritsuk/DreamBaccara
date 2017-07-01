@@ -199,7 +199,8 @@ body {
   padding: 1px 25px;
   font-family: MuseoSans-500,Helvetica,sans-serif;
   font-size: 18px;
-  cursor: pointer; }
+  cursor: pointer;
+  margin-bottom: 5px; }
 
 .table[disabled] {
   pointer-events: none;

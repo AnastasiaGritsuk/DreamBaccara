@@ -13,6 +13,7 @@ export class AppComponent {
   table: Table;
   player: Wallet;
   game: Game;
+  history:Game[];
 
   constructor() {
     this.reset();
@@ -58,7 +59,14 @@ export class AppComponent {
   }
 
   onReady(){
+    if(this.game != null){
+      this.history.push(this.game);
+    }
     this.table.newGame(this.player);
+  }
+
+  onBet(){
+    this.game.makeBet(this.currentBet);
   }
 
 }
