@@ -1,7 +1,5 @@
 import {Component} from '@angular/core';
 import {DefaultBetType, DefaultBetValue, Bet, BetType, Game, Table, Wallet, Player} from "./game";
-import {Deck} from "./deck.";
-import {Dealer} from "./dealer";
 
 @Component({
   moduleId: module.id,
@@ -23,11 +21,6 @@ export class AppComponent {
   betTypes = this.getBetType();
   currentBet = new Bet(DefaultBetType, DefaultBetValue);
 
-  reset(){
-    this.player = new Wallet(this.playerMoney, 'Player');
-    this.table = new Table();
-  }
-
   getBetType() {
     let arr = [];
     for (const type in BetType) {
@@ -41,21 +34,9 @@ export class AppComponent {
     return arr;
   }
 
-  onStartClick() {
-    let playerName = this.player.name;
-    //let playerBalance = this.player.balance.amount;
-
-    //this.currentBet.amount = this.betAmount;
-
-    let data = {
-       player: this.player,
-       deck: new Deck(),
-       bet: this.currentBet,
-       dealer: Dealer,
-       text: ''
-     };
-
-    //this.currentGame = this.game.processGame(data);
+  reset(){
+    this.player = new Wallet(this.playerMoney, 'Player');
+    this.table = new Table();
   }
 
   onReady(){
@@ -69,4 +50,7 @@ export class AppComponent {
     this.game.makeBet(this.currentBet);
   }
 
+  onShuffle(){
+    this.game.shuffle();
+  }
 }

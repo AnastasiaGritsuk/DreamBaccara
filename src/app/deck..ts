@@ -1,14 +1,13 @@
 import {Card} from "./card";
 
 export class Deck  {
-  cards:any[] = [];
+  cards:Card[] = [];
 
   constructor() {
     this.createDeck();
-    this.shuffle();
   }
 
-  shuffle() {
+  shuffle():void {
     for (let i = this.cards.length; i; i--) {
       let j = Math.floor(Math.random() * i);
       [this.cards[i - 1], this.cards[j]] = [this.cards[j], this.cards[i - 1]];
@@ -32,7 +31,7 @@ export class Deck  {
   }
 
   getCard(count:number) {
-    let result:number[] =[];
+    let result:Card[] =[];
 
     for(var i=0;i<count;i++) {
       result.push(this.cards.shift());

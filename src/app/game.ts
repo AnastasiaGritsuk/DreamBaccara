@@ -1,3 +1,4 @@
+import {Deck} from "./deck.";
 export enum BetType {
   Player,
   Bank,
@@ -22,14 +23,15 @@ export const DefaultBetValue = 10;
 
 
 export class Game {
-  gameHistory: any;
   data;
   dealer: Dealer;
   player: Player;
+  deck: Deck;
 
   constructor(public dealerWallet: Wallet, public playerWallet: Wallet) {
     this.dealer = new Dealer(dealerWallet);
     this.player = new Player(playerWallet);
+    this.deck = new Deck();
   }
 
   processGame(data) {
@@ -47,6 +49,10 @@ export class Game {
 
   makeBet(bet: Bet){
     this.player.makeBet(bet);
+  }
+
+  shuffle(){
+    this.deck.shuffle();
   }
 
   drawCard(context, count) {
@@ -107,10 +113,6 @@ export class Game {
     } else {
       this.data.player.balance.decrease(this.data.bet.amount);
     }
-  }
-
-  addToHistory(game) {
-    this.gameHistory.push(game);
   }
 }
 
