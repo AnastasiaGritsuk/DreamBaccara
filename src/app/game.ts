@@ -34,19 +34,6 @@ export class Game {
     this.deck = new Deck();
   }
 
-  processGame(data) {
-    this.data = data;
-
-    this.drawCard('player', 2);
-    this.drawCard('dealer', 2);
-    this.isThirdCardNeeded();
-    this.checkWinBet();
-    this.checkWinner();
-    this.updateBalance();
-
-    return this.data;
-  }
-
   makeBet(bet: Bet){
     this.player.makeBet(bet);
   }
@@ -56,27 +43,27 @@ export class Game {
   }
 
   dealt1(){
-    this.player.receiveCard(this.deck.takeOne());
-    this.player.receiveCard(this.deck.takeOne());
-  }
-
-  dealtDealer1(){
-    this.dealer.receiveCard(this.deck.takeOne());
-    this.dealer.receiveCard(this.deck.takeOne());
+    this.player.takeCard(this.deck.takeOne(), 2);
+    this.dealer.takeCard(this.deck.takeOne(), 2);
   }
 
   dealt2(){
-    this.player.receiveCard(this.deck.takeOne());
+    let points = this.player.calculate();
+    if(points >= 0 && points <= 5) {
+      this.player.takeCard(this.deck.takeOne(), 1);
+    }
+    if (points == 5) {
+      if (this.player.points >= 0 && this.player.points <= 5) {
+        this.player.takeCard(this.deck.takeOne(), 1);
+      }
+    }
   }
 
-  dealtDealer2(){
-
-  }
-
-  drawCard(context, count) {
-    let newCards = this.data.deck.getCard(count);
-    this.data[context].cards = this.data[context].cards.concat(newCards);
-    this.data[context].points = this.calcPoints(this.data[context].cards);
+  dealtDealer(){
+    let points = this.dealer.calculate();
+    if(points >= 0 && points <= 4) {
+      this.dealer.takeCard(this.deck.takeOne(), 1);
+    }
   }
 
   calcPoints(arr: any[]) {
@@ -85,23 +72,6 @@ export class Game {
     }).reduce(function (previousValue, currentValue) {
       return (previousValue + currentValue) % 10;
     });
-  }
-
-  isThirdCardNeeded() {
-    let playerPoints = this.data.player.points;
-    let dealerPoints = this.data.dealer.points;
-
-    if (playerPoints >= 0 && playerPoints <= 5) {
-      this.drawCard('player', 1);
-    }
-    if (dealerPoints >= 0 && dealerPoints <= 4) {
-      this.drawCard('dealer', 1);
-    }
-    if (dealerPoints == 5) {
-      if (playerPoints >= 0 && playerPoints <= 5) {
-        this.drawCard('dealer', 1);
-      }
-    }
   }
 
   checkWinner() {
@@ -161,14 +131,26 @@ export class Table {
 export class Player {
   cards: Card[];
   bet;
+  points: number;
+
   constructor(public wallet: Wallet){}
 
   makeBet(bet: Bet){
     this.bet = bet;
   }
 
-  receiveCard(card: Card){
-    this.cards.push(card);
+  takeCard(card: Card, count:number){
+    for(let i=0;i<=count;i++){
+      this.cards.push(card);
+    }
+  }
+
+  calculate(){
+    return this.cards.map((obj) => {
+      return obj.value;
+    }).reduce(function (previousValue, currentValue) {
+      return (previousValue + currentValue) % 10;
+    });
   }
 }
 
@@ -180,11 +162,22 @@ export interface Card{
 
 export class Dealer{
   cards:Card[];
+  points: number;
 
   constructor(public waller: Wallet){}
 
-  receiveCard(card: Card){
-    this.cards.push(card);
+  takeCard(card: Card, count:number){
+    for(let i=0;i<=count;i++){
+      this.cards.push(card);
+    }
+  }
+
+  calculate(){
+    return this.cards.map((obj) => {
+      return obj.value;
+    }).reduce(function (previousValue, currentValue) {
+      return (previousValue + currentValue) % 10;
+    });
   }
 
   finishGame(){}
