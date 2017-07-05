@@ -21,6 +21,16 @@ export const BankMoney = 10000;
 export const DefaultBetType = BetType.Bank;
 export const DefaultBetValue = 10;
 
+enum StateType {
+  Ready,
+  Bet,
+  Shuffle,
+  Dealt1,
+  Dealt2,
+  DealtDealer,
+  Result
+}
+
 
 export class Game {
   data;
@@ -66,41 +76,8 @@ export class Game {
     }
   }
 
-  calcPoints(arr: any[]) {
-    return arr.map((obj) => {
-      return obj.value;
-    }).reduce(function (previousValue, currentValue) {
-      return (previousValue + currentValue) % 10;
-    });
-  }
-
-  checkWinner() {
-    if (this.data.bet.value === this.data.winBet) {
-      this.data.bet.isWin = true;
-      this.data.text = 'Player won';
-    } else {
-      this.data.text = 'Dealer won';
-    }
-  }
-
-  checkWinBet() {
-    if (this.data.player.points == this.data.dealer.points) {
-      this.data.winBet = 'tieBet';
-    }
-    if (this.data.player.points > this.data.dealer.points) {
-      this.data.winBet = 'playerBet';
-    } else {
-      this.data.winBet = 'bankBet';
-    }
-  }
-
-  updateBalance() {
-    if (this.data.bet.isWin) {
-      let sum = this.data.bet.multiplier * this.data.bet.amount;
-      this.data.player.balance.increase(sum);
-    } else {
-      this.data.player.balance.decrease(this.data.bet.amount);
-    }
+  finishGame(){
+    this.dealer.finishGame(this.player);
   }
 }
 
@@ -111,11 +88,11 @@ export class Bet {
 export  class Wallet {
   constructor(public money: number, public name: string){}
 
-  get(){
-    return this.money;
+  withdraw(money:number){
+    this.money -= money;
   }
 
-  set(money: number) {
+  add(money: number) {
     this.money =+ money;
   }
 }
@@ -164,7 +141,7 @@ export class Dealer{
   cards:Card[];
   points: number;
 
-  constructor(public waller: Wallet){}
+  constructor(public wallet: Wallet){}
 
   takeCard(card: Card, count:number){
     for(let i=0;i<=count;i++){
@@ -180,5 +157,24 @@ export class Dealer{
     });
   }
 
-  finishGame(){}
+  finishGame(player: Player){
+    if(player.points > this.points){
+      if(player.bet.type === BetType.Player) {
+        this.wallet.withdraw(player.bet.value*Bets[BetType.Player].multiplier);
+        player.wallet.add(player.bet.value + player.bet.value*Bets[BetType.Player].multiplier);
+      }
+    }
+    if(player.points === this.points){
+      if(player.bet.type === BetType.Tie) {
+        this.wallet.withdraw(player.bet.value*Bets[BetType.Tie].multiplier);
+        player.wallet.add(player.bet.value + player.bet.value*Bets[BetType.Tie].multiplier);
+      }
+    }
+    if(player.points < this.points){
+      if(player.bet.type === BetType.Bank) {
+        player.wallet.withdraw(player.bet.value*Bets[BetType.Bank].multiplier);
+        this.wallet.add(player.bet.value + player.bet.value*Bets[BetType.Bank].multiplier);
+      }
+    }
+  }
 }

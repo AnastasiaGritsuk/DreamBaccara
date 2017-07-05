@@ -65,5 +65,6 @@ export class AppComponent {
   //review rules
   onDealtDealer(){
     this.game.dealtDealer();
+    this.game.finishGame();
   }
 }
