@@ -35,8 +35,7 @@
           <div class="player">
             <input type="text"
                    placeholder="Enter your name" class="player__item player__item_name">
-            <input type="number"
-                   placeholder="Enter your balance" class="player__item player__item_balance">
+            <div>Starting balance:{{playerStartingBalance}}</div>
 
             <button type="button" (click)="onReady()"  class="panel__button">Ready</button>
             <button type="button" (click)="onBet()" class="panel__button">Do Bet</button>

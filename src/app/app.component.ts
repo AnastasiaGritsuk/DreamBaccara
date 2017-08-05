@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {DefaultBetType, DefaultBetValue, Bet, BetType, Game, Player} from "./game";
+import {DefaultBetType, DefaultBetValue, Bet, BetType, Game, Player, PlayerMoney} from "./game";
 import {Table} from "./table";
 
 @Component({
@@ -13,6 +13,7 @@ export class AppComponent {
   player: Player;
   game: Game;
   history:Game[];
+  playerStartingBalance = PlayerMoney;
 
   constructor() {
     this.reset();
