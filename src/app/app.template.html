@@ -4,10 +4,10 @@
     <div class="layout-grid">
       <div class="layout-grid__container">
         <div class="panel panel_dealer">
-          <p>{{dealer.balance.amount}}</p>
+          <p>{{getDealerBalance()}}</p>
           <div class="cards" *ngIf="dealer">
-            <div class="cards__item" *ngFor="let dealerCard of dealer.cards">
-              {{dealerCard.name}}{{dealerCard.suit}}
+            <div class="cards__item" *ngFor="let dealerCard of getDealerCards()">
+              {{dealerCard}}
             </div>
           </div>
         </div>
@@ -17,15 +17,15 @@
               <p>Select a bet:</p>
 
               <select [(ngModel)]="currentBet.type" class="panel__select">
-                <option *ngFor="let bet of betTypes" [ngValue]="bet.value">
+                <option *ngFor="let bet of getBetType()" [ngValue]="bet.value">
                   {{bet.name}}
                 </option>
               </select>
               <input type="number" [(ngModel)]="currentBet.value" class="panel__input" min="1" max="1000">
 
               <div class="cards" *ngIf="game">
-                <div class="cards__item" *ngFor="let playerCard of player.cards">
-                  {{playerCard.name}}{{playerCard.suit}}
+                <div class="cards__item" *ngFor="let playerCard of getPlayerCards()">
+                  {{playerCard}}
                 </div>
               </div>
             </div>

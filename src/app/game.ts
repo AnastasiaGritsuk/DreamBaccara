@@ -1,4 +1,5 @@
 import {Deck} from "./deck.";
+import {Card} from "./card";
 export enum BetType {
   Player,
   Bank,
@@ -31,9 +32,7 @@ enum StateType {
   Result
 }
 
-
 export class Game {
-  data;
   dealer: Dealer;
   player: Player;
   deck: Deck;
@@ -131,12 +130,6 @@ export class Player {
   }
 }
 
-export interface Card{
-  value:number,
-  name:string,
-  suit:string
-}
-
 export class Dealer{
   cards:Card[];
   points: number;
@@ -150,11 +143,9 @@ export class Dealer{
   }
 
   calculate(){
-    return this.cards.map((obj) => {
-      return obj.value;
-    }).reduce(function (previousValue, currentValue) {
-      return (previousValue + currentValue) % 10;
-    });
+    return this.cards.reduce(function (acc, currentValue) {
+      return (acc + currentValue.value) % 10;
+    },0);
   }
 
   finishGame(player: Player){

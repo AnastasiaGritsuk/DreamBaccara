@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {DefaultBetType, DefaultBetValue, Bet, BetType, Game, Table, Wallet, Player} from "./game";
+import {Card} from "./card";
 
 @Component({
   moduleId: module.id,
@@ -32,6 +33,18 @@ export class AppComponent {
       }
     }
     return arr;
+  }
+
+  getDealerBalance(){
+    return 10;
+  }
+
+  getDealerCards(){
+    return [new Card('3', 'D'),new Card('2', 'C')];
+  }
+
+  getPlayerCards(){
+    return [new Card('2', 'D'),new Card('7', 'C')];
   }
 
   reset(){

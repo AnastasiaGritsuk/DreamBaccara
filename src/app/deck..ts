@@ -1,4 +1,6 @@
-import {Card} from "./card";
+import {Card, Names, Suits} from "./card";
+
+
 
 export class Deck  {
   cards:Card[] = [];
@@ -8,26 +10,25 @@ export class Deck  {
   }
 
   shuffle():void {
-    for (let i = this.cards.length; i; i--) {
-      let j = Math.floor(Math.random() * i);
-      [this.cards[i - 1], this.cards[j]] = [this.cards[j], this.cards[i - 1]];
+    let l = this.cards.length;
+    let temp: Card;
+
+    for (let i = 100; i; i--) {
+      let j = Math.floor(Math.random() * l);
+      let k = Math.floor(Math.random() * l);
+
+      temp = this.cards[k];
+      this.cards[j] = this.cards[k];
+      this.cards[k] = temp;
     }
   }
 
   create(){
-    let names = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
-    let suits = ['H','D','S','C'];
-
-    for( let s = 0; s < suits.length; s++ ) {
-      for( let n = 0; n < names.length; n++ ) {
-        this.cards.push( new Card( this.toValue(n+1), names[n], suits[s] ) );
+    for( let s of Suits) {
+      for(let n of Names ) {
+        this.cards.push( new Card( n, s ) );
       }
     }
-  }
-
-  toValue(n){
-    if(n>9) n=0;
-    return n;
   }
 
   takeOne():Card {
