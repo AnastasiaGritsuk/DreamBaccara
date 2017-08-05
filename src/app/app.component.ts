@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {DefaultBetType, DefaultBetValue, Bet, BetType, Game, Table, Wallet, Player} from "./game";
-import {Card} from "./card";
+import {DefaultBetType, DefaultBetValue, Bet, BetType, Game, Player} from "./game";
+import {Table} from "./table";
 
 @Component({
   moduleId: module.id,
@@ -10,7 +10,7 @@ import {Card} from "./card";
 
 export class AppComponent {
   table: Table;
-  player: Wallet;
+  player: Player;
   game: Game;
   history:Game[];
 
@@ -18,8 +18,6 @@ export class AppComponent {
     this.reset();
   };
 
-  playerMoney = 0;
-  betTypes = this.getBetType();
   currentBet = new Bet(DefaultBetType, DefaultBetValue);
 
   getBetType() {
@@ -36,27 +34,28 @@ export class AppComponent {
   }
 
   getDealerBalance(){
-    return 10;
+    return this.table.bankMoney.amount;
   }
 
   getDealerCards(){
-    return [new Card('3', 'D'),new Card('2', 'C')];
+    return this.table.dealer.cards;
   }
 
   getPlayerCards(){
-    return [new Card('2', 'D'),new Card('7', 'C')];
+    return this.player.cards;
   }
 
   reset(){
-    this.player = new Wallet(this.playerMoney, 'Player');
     this.table = new Table();
+    this.player = this.table.newPlayer();
   }
 
   onReady(){
     if(this.game != null){
       this.history.push(this.game);
     }
-    this.table.newGame(this.player);
+
+    this.game = this.table.newGame(this.player);
   }
 
   onBet(){

@@ -1,5 +1,6 @@
 import {Deck} from "./deck.";
 import {Card} from "./card";
+import {Wallet} from "./wallet";
 export enum BetType {
   Player,
   Bank,
@@ -19,6 +20,7 @@ const Bets = {
 };
 
 export const BankMoney = 10000;
+export const PlayerMoney = 500;
 export const DefaultBetType = BetType.Bank;
 export const DefaultBetValue = 10;
 
@@ -33,13 +35,9 @@ enum StateType {
 }
 
 export class Game {
-  dealer: Dealer;
-  player: Player;
   deck: Deck;
 
-  constructor(public dealerWallet: Wallet, public playerWallet: Wallet) {
-    this.dealer = new Dealer(dealerWallet);
-    this.player = new Player(playerWallet);
+  constructor(public dealer: Dealer, public player: Player) {
     this.deck = new Deck();
   }
 
@@ -84,29 +82,9 @@ export class Bet {
   constructor(public type: BetType, public value: number){}
 }
 
-export  class Wallet {
-  constructor(public money: number, public name: string){}
-
-  withdraw(money:number){
-    this.money -= money;
-  }
-
-  add(money: number) {
-    this.money =+ money;
-  }
-}
-
-export class Table {
-  dealer = new Wallet(BankMoney, 'Dealer');
-
-  newGame(player: Wallet):Game{
-    return new Game(this.dealer, player);
-  }
-}
-
 export class Player {
-  cards: Card[];
-  bet;
+  cards: Card[] = [];
+  bet:Bet;
   points: number;
 
   constructor(public wallet: Wallet){}
@@ -131,7 +109,7 @@ export class Player {
 }
 
 export class Dealer{
-  cards:Card[];
+  cards:Card[] = [];
   points: number;
 
   constructor(public wallet: Wallet){}

@@ -5,7 +5,7 @@
       <div class="layout-grid__container">
         <div class="panel panel_dealer">
           <p>{{getDealerBalance()}}</p>
-          <div class="cards" *ngIf="dealer">
+          <div class="cards" *ngIf="bankMoney">
             <div class="cards__item" *ngFor="let dealerCard of getDealerCards()">
               {{dealerCard}}
             </div>
