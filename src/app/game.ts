@@ -1,13 +1,13 @@
-import {Deck} from "./deck.";
-import {Card} from "./card";
-import {Wallet} from "./wallet";
+import {Deck} from "./deck";
+import {Hand} from "./hand";
+
 export enum BetType {
   Player,
   Bank,
   Tie
-};
+}
 
-const Bets = {
+export const BetPayments = {
   [BetType.Player]:{
     multiplier: 1
   },
@@ -15,7 +15,7 @@ const Bets = {
     multiplier: 0.95
   },
   [BetType.Tie]:{
-    multiplier: 0.9
+    multiplier: 8
   }
 };
 
@@ -24,126 +24,106 @@ export const PlayerMoney = 500;
 export const DefaultBetType = BetType.Bank;
 export const DefaultBetValue = 10;
 
-enum StateType {
-  Ready,
-  Bet,
-  Shuffle,
-  Dealt1,
-  Dealt2,
-  DealtDealer,
-  Result
-}
 
 export class Game {
-  deck: Deck;
+  deck: Deck= new Deck();
+  player:Hand = new Hand();
+  dealer:Hand = new Hand();
 
-  constructor(public dealer: Dealer, public player: Player) {
-    this.deck = new Deck();
+  constructor(public betType: BetType, public value: number) {
+
   }
 
-  makeBet(bet: Bet){
-    this.player.makeBet(bet);
+  play() {
+    this.deal();
+
+    return this.result();
   }
 
-  shuffle(){
+  deal() {
     this.deck.shuffle();
+    this.dealTwo();
+    this.dealRest();
   }
 
-  dealt1(){
-    this.player.takeCard(this.deck.takeOne(), 2);
-    this.dealer.takeCard(this.deck.takeOne(), 2);
+  dealTwo() {
+    this.player.take(this.deck.one());
+    this.dealer.take(this.deck.one());
+    this.player.take(this.deck.one());
+    this.dealer.take(this.deck.one());
   }
 
-  dealt2(){
-    let points = this.player.calculate();
-    if(points >= 0 && points <= 5) {
-      this.player.takeCard(this.deck.takeOne(), 1);
-    }
-    if (points == 5) {
-      if (this.player.points >= 0 && this.player.points <= 5) {
-        this.player.takeCard(this.deck.takeOne(), 1);
+  dealRest() {
+    if(this.dealer.value() >= 8 || this.player.value() >= 8)
+      return;
+
+    if(this.player.value() > 5) {
+      if(this.dealer.value() <= 5) {
+        this.dealer.take(this.deck.one());
       }
+      return;
     }
+
+    let thirdCard = this.deck.one();
+
+    this.player.take(thirdCard);
+
+    switch (this.dealer.value()) {
+      case 0:
+      case 1:
+      case 2:
+        this.dealer.take(this.deck.one());
+        break;
+      case 3:
+        if(
+          thirdCard.value == 1
+          || thirdCard.value == 2
+          || thirdCard.value == 3
+          || thirdCard.value == 4
+          || thirdCard.value == 5
+          || thirdCard.value == 6
+          || thirdCard.value == 7
+          || thirdCard.value == 9
+          || thirdCard.value == 0) {
+          this.dealer.take(this.deck.one());
+        }
+        break;
+      case 4:
+        if(thirdCard.value == 2
+          || thirdCard.value == 3
+          || thirdCard.value == 4
+          || thirdCard.value == 5
+          || thirdCard.value == 6
+          || thirdCard.value == 7) {
+          this.dealer.take(this.deck.one());
+        }
+        break;
+      case 5:
+        if(thirdCard.value == 4
+          || thirdCard.value == 5
+          || thirdCard.value == 6
+          || thirdCard.value == 7) {
+          this.dealer.take(this.deck.one());
+        }
+        break;
+      case 6:
+        if(thirdCard.value == 6 || thirdCard.value == 7) {
+            this.dealer.take(this.deck.one());
+        }
+        break
+      case 7:
+        break;
+    }
+
   }
 
-  dealtDealer(){
-    let points = this.dealer.calculate();
-    if(points >= 0 && points <= 4) {
-      this.dealer.takeCard(this.deck.takeOne(), 1);
-    }
-  }
+  result() {
+    let payment:number;
 
-  finishGame(){
-    this.dealer.finishGame(this.player);
+    return {
+      dealer:-payment,
+      player:payment
+    }
   }
 }
 
-export class Bet {
-  constructor(public type: BetType, public value: number){}
-}
-
-export class Player {
-  cards: Card[] = [];
-  bet:Bet;
-  points: number;
-
-  constructor(public wallet: Wallet){}
-
-  makeBet(bet: Bet){
-    this.bet = bet;
-  }
-
-  takeCard(card: Card, count:number){
-    for(let i=0;i<=count;i++){
-      this.cards.push(card);
-    }
-  }
-
-  calculate(){
-    return this.cards.map((obj) => {
-      return obj.value;
-    }).reduce(function (previousValue, currentValue) {
-      return (previousValue + currentValue) % 10;
-    });
-  }
-}
-
-export class Dealer{
-  cards:Card[] = [];
-  points: number;
-
-  constructor(public wallet: Wallet){}
-
-  takeCard(card: Card, count:number){
-    for(let i=0;i<=count;i++){
-      this.cards.push(card);
-    }
-  }
-
-  calculate(){
-    return this.cards.reduce(function (acc, currentValue) {
-      return (acc + currentValue.value) % 10;
-    },0);
-  }
-
-  finishGame(player: Player){
-    if(player.points > this.points){
-      if(player.bet.type === BetType.Player) {
-        this.wallet.withdraw(player.bet.value*Bets[BetType.Player].multiplier);
-        player.wallet.add(player.bet.value + player.bet.value*Bets[BetType.Player].multiplier);
-      }
-    }
-    if(player.points === this.points){
-      if(player.bet.type === BetType.Tie) {
-        this.wallet.withdraw(player.bet.value*Bets[BetType.Tie].multiplier);
-        player.wallet.add(player.bet.value + player.bet.value*Bets[BetType.Tie].multiplier);
-      }
-    }
-    if(player.points < this.points){
-      if(player.bet.type === BetType.Bank) {
-        player.wallet.withdraw(player.bet.value*Bets[BetType.Bank].multiplier);
-        this.wallet.add(player.bet.value + player.bet.value*Bets[BetType.Bank].multiplier);
-      }
-    }
-  }
-}

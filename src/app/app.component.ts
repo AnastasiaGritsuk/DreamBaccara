@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {DefaultBetType, DefaultBetValue, Bet, BetType, Game, Player, PlayerMoney} from "./game";
 import {Table} from "./table";
+import {BetType} from "./bet";
 
 @Component({
   moduleId: module.id,
@@ -10,74 +10,48 @@ import {Table} from "./table";
 
 export class AppComponent {
   table: Table;
-  player: Player;
-  game: Game;
-  history:Game[];
-  playerStartingBalance = PlayerMoney;
 
   constructor() {
-    this.reset();
+    this.bets = this.getBetType();
+    this.table = new Table();
   };
 
-  currentBet = new Bet(DefaultBetType, DefaultBetValue);
+  //currentBet = //new Bet(DefaultBetType, DefaultBetValue);
+  bets = this.getBetType();
 
   getBetType() {
     let arr = [];
-    for (const type in BetType) {
-      if (!Number(type) && +type != 0) {
-        arr.push({
-          name:type,
-          value: BetType[type]
-        });
-      }
+    for (const item in BetType){
+
     }
     return arr;
   }
 
   getDealerBalance(){
-    return this.table.bankMoney.amount;
+    return this.table.dealerMoney.amount;
+  }
+
+  getPlayerBalance(){
+    return this.table.playerMoney.amount;
   }
 
   getDealerCards(){
-    return this.table.dealer.cards;
+    return this.table.history.last().dealer;
   }
 
   getPlayerCards(){
-    return this.player.cards;
+    return this.table.history.last().player;
   }
 
-  reset(){
+  onNew(){
     this.table = new Table();
-    this.player = this.table.newPlayer();
   }
 
-  onReady(){
-    if(this.game != null){
-      this.history.push(this.game);
-    }
+  onNext(){
 
-    this.game = this.table.newGame(this.player);
   }
 
   onBet(){
-    this.game.makeBet(this.currentBet);
-  }
-
-  onShuffle(){
-    this.game.shuffle();
-  }
-
-  onDealt1(){
-    this.game.dealt1();
-  }
-
-  onDealt2(){
-    this.game.dealt2();
-  }
-
-  //review rules
-  onDealtDealer(){
-    this.game.dealtDealer();
-    this.game.finishGame();
+    this.table.bet(this.currentBetType, this.currentBetValue);
   }
 }

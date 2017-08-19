@@ -31,7 +31,7 @@ export class Deck  {
     }
   }
 
-  takeOne():Card {
+  one():Card {
     return this.cards.shift();
   }
 }
